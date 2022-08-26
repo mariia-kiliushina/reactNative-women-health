@@ -12,7 +12,7 @@ import {
 import { FC } from 'react';
 
 type Props = {
-  // type: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';
+  type: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';
   // size?: 'small' | 'medium' | 'large';
   // text: string;
   // onClick: () => void;
@@ -23,11 +23,11 @@ type Props = {
 
 const MyButton: FC<Props> = (props) => {
   const { title, onPress } = props;
-  // const className = cx({
-  //   [styles.defaultButton]: true,
-  //   [styles[type]]: type,
-  //   [styles[size]]: size,
-  // })
+  const className = cx({
+    [styles.defaultButton]: true,
+    [styles[type]]: type,
+    [styles[size]]: size,
+  });
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.defaultButton} onPress={onPress}>
@@ -56,6 +56,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 40,
     backgroundColor: 'yellow',
+  },
+  primary: {
+    backgroundColor: 'blue',
+    color: 'white',
+  },
+  secondary: {
+    backgroundColor: 'white',
+    color: 'white',
   },
 });
 
