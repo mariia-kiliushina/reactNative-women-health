@@ -4,7 +4,7 @@ export default {
   title: 'React Native Button',
   component: Button,
   args: {
-    title: 'Hello world',
+    title: 'React Native Button',
   },
 };
 
