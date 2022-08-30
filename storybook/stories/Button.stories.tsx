@@ -46,4 +46,25 @@ storiesOf('Button', module)
         <Button type="outlined" title="Click" onPress={action('clicked-text')}></Button>
       </CenterView>
     );
+  })
+  .add('small', () => {
+    return (
+      <CenterView>
+        <Button size="small" title="Click" onPress={action('clicked-text')}></Button>
+      </CenterView>
+    );
+  })
+  .add('medium', () => {
+    return (
+      <CenterView>
+        <Button size="medium" title="Click" onPress={action('clicked-text')}></Button>
+      </CenterView>
+    );
+  })
+  .add('large', () => {
+    return (
+      <CenterView>
+        <Button size="large" title="Click" onPress={action('clicked-text')}></Button>
+      </CenterView>
+    );
   });

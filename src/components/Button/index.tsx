@@ -3,17 +3,17 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FC } from 'react';
 import COLORS from '../../colors';
 type Props = {
-  type: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';
+  type?: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';
   size?: 'small' | 'medium' | 'large';
   title: string;
   onPress: () => void;
 };
 
 const MyButton: FC<Props> = (props) => {
-  const { title, onPress, type } = props;
-
-  const { defaultButton, primary, secondary, disabled, danger, outlined, flat } = styles;
-  const customViewStyle = (type: string) => {
+  const { title, onPress, type = 'primary', size = 'medium' } = props;
+  const { defaultButton, primary, secondary, disabled, danger, outlined, flat } = buttonStyles;
+  const { small, medium, large, whiteText, blueText, disabledText } = textStyles;
+  const customTypeStyle = (type: string) => {
     switch (type) {
       case 'primary':
         return primary;
@@ -37,31 +37,53 @@ const MyButton: FC<Props> = (props) => {
         return primary;
     }
   };
-  const customTextStyle = (type: string) => {
-    const whiteColorList = ['primary', 'secondary', 'danger'];
-    if (whiteColorList.includes(type)) return 'white';
-    if (type === 'disabled') return COLORS.colorGreyscaleSecondaryGrey;
-    return COLORS.colorPrimary;
+  const customSizeStyle = (size: string) => {
+    switch (size) {
+      case 'small':
+        return small;
+        break;
+      case 'medium':
+        return medium;
+        break;
+      case 'large':
+        return large;
+        break;
+      default:
+        return primary;
+    }
   };
-  const combinedViewStyles = StyleSheet.flatten([defaultButton, customViewStyle(type)]);
+  const customTextColorStyle = (type: string) => {
+    const whiteColorList = ['primary', 'secondary', 'danger'];
+    if (whiteColorList.includes(type)) return whiteText;
+    if (type === 'disabled') return disabledText;
+    return blueText;
+  };
+  const combinedViewStyles = StyleSheet.flatten([defaultButton, customTypeStyle(type)]);
+  const combinedTextStyles = StyleSheet.flatten([
+    customTextColorStyle(type),
+    customSizeStyle(size),
+  ]);
+
   return (
-    <View style={styles.container}>
+    <View style={viewStyles.container}>
       <TouchableOpacity onPress={onPress}>
         <View style={combinedViewStyles}>
-          <Text style={{ color: customTextStyle(type) }}>{title}</Text>
+          <Text style={combinedTextStyles}>{title}</Text>
         </View>
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const viewStyles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 10,
     borderRadius: 12,
   },
+});
+
+const buttonStyles = StyleSheet.create({
   defaultButton: {
     display: 'flex',
     justifyContent: 'center',
@@ -69,8 +91,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     cursor: 'pointer',
     fontWeight: 500,
-    width: 100,
-    height: 40,
+    height: 'fit-content',
+    width: 'fit-content',
   },
   primary: {
     backgroundColor: COLORS.colorPrimary,
@@ -90,6 +112,33 @@ const styles = StyleSheet.create({
   },
   flat: {
     backgroundColor: COLORS.colorGreyscaleWhite,
+  },
+});
+
+const textStyles = StyleSheet.create({
+  whiteText: {
+    color: 'white',
+  },
+  blueText: {
+    color: COLORS.colorPrimary,
+  },
+  disabledText: {
+    color: COLORS.colorGreyscaleSecondaryGrey,
+  },
+  small: {
+    fontSize: 13,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  medium: {
+    fontSize: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  large: {
+    fontSize: 20,
+    paddingHorizontal: 24,
+    paddingVertical: 20,
   },
 });
 

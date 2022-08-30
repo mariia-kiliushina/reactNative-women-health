@@ -1,16 +1,37 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import { FC } from 'react';
 import COLORS from '../../colors';
-type Props = {};
+
+type Ttype = 'password' | 'e-mail' | 'primary' | 'error';
+type Props = {
+  type: Ttype;
+  secureTextEntry?: boolean;
+  placeholder: string;
+};
 
 const MyInput: FC<Props> = (props) => {
-  const {} = props;
-  const [text, onChangeText] = React.useState('Useless Text');
-
+  const { placeholder, type } = props;
+  const [text, onChangeText] = React.useState('');
+  const getKeyboardType = (type: Ttype) => {
+    switch (type) {
+      case 'e-mail':
+        return 'email-address';
+        break;
+      default:
+        return 'default';
+    }
+  };
   return (
     <View>
-      <TextInput onChangeText={onChangeText} value={text} style={styles.input} />
+      <TextInput
+        secureTextEntry={type === 'password'}
+        onChangeText={onChangeText}
+        value={text}
+        style={styles.input}
+        placeholder={placeholder}
+        keyboardType={getKeyboardType(type) || undefined}
+      />
     </View>
   );
 };

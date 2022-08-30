@@ -1,4 +1,4 @@
 import './Button.stories';
-import './Welcome/Welcome.stories';
+import './SymptomIcon.stories';
 import './Calendar.stories';
 import './Input.stories';
