@@ -2,17 +2,21 @@ import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { FC } from 'react';
 import COLORS from '../../colors';
+import { FieldError } from 'react-hook-form';
 
-type Ttype = 'password' | 'e-mail' | 'primary' | 'error';
+export type Ttype = 'password' | 'e-mail' | 'default';
 type Props = {
-  type: Ttype;
-  secureTextEntry?: boolean;
+  value: string;
+  onChangeText: () => void;
+  onBlur: () => void;
+  type?: Ttype;
   placeholder: string;
+  isError: boolean | undefined;
 };
 
 const MyInput: FC<Props> = (props) => {
-  const { placeholder, type } = props;
-  const [text, onChangeText] = React.useState('');
+  const { placeholder, value, type = 'default', onChangeText, onBlur, isError } = props;
+  // const [text, onChangeText] = React.useState('');
   const getKeyboardType = (type: Ttype) => {
     switch (type) {
       case 'e-mail':
@@ -22,13 +26,15 @@ const MyInput: FC<Props> = (props) => {
         return 'default';
     }
   };
+
   return (
     <View>
       <TextInput
         secureTextEntry={type === 'password'}
         onChangeText={onChangeText}
-        value={text}
-        style={styles.input}
+        onBlur={onBlur}
+        value={value}
+        style={[styles.input, isError ? styles.error : null]}
         placeholder={placeholder}
         keyboardType={getKeyboardType(type) || undefined}
       />
@@ -38,12 +44,16 @@ const MyInput: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   input: {
+    margin: 0,
     height: 40,
-    margin: 12,
+    width: '100%',
     borderWidth: 1,
     padding: 10,
     borderRadius: 8,
     backgroundColor: 'white',
+  },
+  error: {
+    borderColor: COLORS.colorSupportingErrorred,
   },
 });
 

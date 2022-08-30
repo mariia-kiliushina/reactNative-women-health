@@ -5,6 +5,7 @@ import React from 'react';
 import SymptomIcon from '../../src/components/SymptomIcon';
 import CenterView from './CenterView';
 import imageSources from '../../src/images';
+
 storiesOf('SymptomIcon', module)
   .add('default', () => {
     return (
