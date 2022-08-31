@@ -22,8 +22,8 @@ const SignIn: FC<Props> = (props) => {
   console.log('errors');
   console.log(errors);
   const onSignIn = (data: {}) => {
-    console.log('SIGN in');
-    console.log(data);
+    //@ts-ignore
+    navigation.navigate('Home');
   };
   const onSignUp = () => {
     //@ts-ignore

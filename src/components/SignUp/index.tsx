@@ -3,14 +3,36 @@ import { StyleSheet, View, Text, Image, ScrollView, useWindowDimensions } from '
 import { FC } from 'react';
 import Button from 'components/Button';
 import COLORS from '../../colors';
-import imageSources from '../../images';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
 import girlWithFlowers from '../../assets/girl-flowers.png';
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 type Props = {};
 const EMAIL_REGEX = /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/;
+
+export interface User {
+  login: string;
+  password: string;
+}
+// export const registerUser = createAsyncThunk('registerUser', async (user: User) => {
+//   const response = await fetch('https://women-health-backend.herokuapp.com/api/' + 'registration', {
+//     body: JSON.stringify(user),
+//     headers: { 'Content-Type': 'application/json' },
+//     method: 'POST',
+//   });
+//   return await response.json();
+// });
+
+//@ts-ignore
+const registerUser = async (user: User) => {
+  const response = await fetch('https://women-health-backend.herokuapp.com/api/' + 'registration', {
+    body: JSON.stringify(user),
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+  });
+  return await response.json();
+};
 
 const SignUp: FC<Props> = (props) => {
   // const dispatch = useDispatch();
@@ -21,11 +43,11 @@ const SignUp: FC<Props> = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSignUp = (data: {}) => {
+  //@ts-ignore
+  const onSignUp = (data) => {
     console.log('SIGN UP');
     console.log(data);
-
-    // navigator.navigate('Main');
+    registerUser(data);
   };
   const onForgotPassword = () => {
     // navigator.navigate('ForgotPassword');
@@ -37,17 +59,17 @@ const SignUp: FC<Props> = (props) => {
           <Text style={styles.text}>Welcome to Femme</Text>
           <ControlledInput
             control={control}
-            name="username"
+            name="login"
             placeholder="Enter your username"
             rules={{ required: 'Username is required' }}
           />
-          <ControlledInput
+          {/* <ControlledInput
             control={control}
             name="e-mail"
             type="e-mail"
             placeholder="Enter your email"
             rules={{ required: 'Username is required', pattern: EMAIL_REGEX }}
-          />
+          /> */}
           <ControlledInput
             control={control}
             name="password"
@@ -61,7 +83,7 @@ const SignUp: FC<Props> = (props) => {
               },
             }}
           />
-          <ControlledInput
+          {/* <ControlledInput
             control={control}
             name="passwordRepeat"
             type="password"
@@ -73,7 +95,7 @@ const SignUp: FC<Props> = (props) => {
                 message: 'Password should be minimum 5 characters long',
               },
             }}
-          />
+          /> */}
           <Button title="Sign Up" onPress={handleSubmit(onSignUp)} />
           <Button title="Go back" onPress={() => navigation.goBack()} />
           <View style={styles.imageContainer}>
