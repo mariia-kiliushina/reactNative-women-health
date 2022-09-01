@@ -4,17 +4,17 @@ import Input from '../../src/components/Input';
 import CenterView from './CenterView';
 
 storiesOf('Input', module)
-  .add('primary', () => {
+  .add('default', () => {
     return (
       <CenterView>
-        <Input placeholder="Enter your sth" type={'primary'} />
+        <Input placeholder="Enter your sth" type="default" />
       </CenterView>
     );
   })
-  .add('error', () => {
+  .add('e-mail', () => {
     return (
       <CenterView>
-        <Input type="error" placeholder="Enter your sth" />
+        <Input type="e-mail" placeholder="Enter your sth" />
       </CenterView>
     );
   })
@@ -22,13 +22,6 @@ storiesOf('Input', module)
     return (
       <CenterView>
         <Input type="password" placeholder="Enter your sth" />
-      </CenterView>
-    );
-  })
-  .add('e-mail', () => {
-    return (
-      <CenterView>
-        <Input type="e-mail" placeholder="Enter your e-mail" secureTextEntry={true} />
       </CenterView>
     );
   });

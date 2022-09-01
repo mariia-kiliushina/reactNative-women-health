@@ -28,7 +28,7 @@ const initialState: IState = {
 };
 
 const URL_PREFIX = 'https://women-health-backend.herokuapp.com/api/';
-// const URL_PREFIX = '/api/'
+// const URL_PREFIX = 'http://localhost:8082/api/';
 
 export const logout = createAsyncThunk('logout', async () => {
   const response = await fetch(URL_PREFIX + 'logout', {

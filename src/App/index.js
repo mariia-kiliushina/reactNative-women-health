@@ -5,7 +5,7 @@ import SignUp from '../components/SignUp';
 import Home from '../components/Home';
 import ForgotPassword from '../components/ForgotPassword';
 import store from '../store';
-import Provider from 'react-redux';
+import { Provider } from 'react-redux';
 
 export default function App() {
   const Stack = createNativeStackNavigator();

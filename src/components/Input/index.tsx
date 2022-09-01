@@ -2,20 +2,19 @@ import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { FC } from 'react';
 import COLORS from '../../colors';
-import { FieldError } from 'react-hook-form';
 
 export type Ttype = 'password' | 'e-mail' | 'default';
 type Props = {
-  value: string;
-  onChangeText: () => void;
-  onBlur: () => void;
+  value?: string;
+  onChangeText?: () => void;
+  onBlur?: () => void;
   type?: Ttype;
   placeholder: string;
-  isError: boolean | undefined;
+  isError?: boolean | undefined;
 };
 
 const MyInput: FC<Props> = (props) => {
-  const { placeholder, value, type = 'default', onChangeText, onBlur, isError } = props;
+  const { placeholder, value, type = 'default', onChangeText, onBlur, isError = false } = props;
   // const [text, onChangeText] = React.useState('');
   const getKeyboardType = (type: Ttype) => {
     switch (type) {

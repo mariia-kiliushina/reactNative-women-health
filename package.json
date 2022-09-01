@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "storybook": "start-storybook -p 7007",
     "prestorybook": "rnstl",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "check-types": "tsc --noEmit",
+    "check-types:watch": "tsc --noEmit --watch"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",

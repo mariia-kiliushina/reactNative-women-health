@@ -7,11 +7,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
 import girlWithFlowers from '../../assets/girl-flowers.png';
-
+import { authenticateUser } from '../../store/sliceData';
+import { useDispatch } from 'react-redux';
 type Props = {};
 
 const SignIn: FC<Props> = (props) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
   const {
@@ -19,9 +20,9 @@ const SignIn: FC<Props> = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log('errors');
-  console.log(errors);
-  const onSignIn = (data: {}) => {
+  const onSignIn = (data: any) => {
+    //@ts-ignore
+    dispatch(authenticateUser(data));
     //@ts-ignore
     navigation.navigate('Home');
   };

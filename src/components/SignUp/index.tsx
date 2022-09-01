@@ -7,7 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
 import girlWithFlowers from '../../assets/girl-flowers.png';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { registerUser } from '../../store/sliceData';
+import { useDispatch } from 'react-redux';
 type Props = {};
 const EMAIL_REGEX = /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/;
 
@@ -15,27 +16,9 @@ export interface User {
   login: string;
   password: string;
 }
-// export const registerUser = createAsyncThunk('registerUser', async (user: User) => {
-//   const response = await fetch('https://women-health-backend.herokuapp.com/api/' + 'registration', {
-//     body: JSON.stringify(user),
-//     headers: { 'Content-Type': 'application/json' },
-//     method: 'POST',
-//   });
-//   return await response.json();
-// });
-
-//@ts-ignore
-const registerUser = async (user: User) => {
-  const response = await fetch('https://women-health-backend.herokuapp.com/api/' + 'registration', {
-    body: JSON.stringify(user),
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-  });
-  return await response.json();
-};
 
 const SignUp: FC<Props> = (props) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
   const {
@@ -43,11 +26,11 @@ const SignUp: FC<Props> = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  //@ts-ignore
-  const onSignUp = (data) => {
+  const onSignUp = (data: any) => {
     console.log('SIGN UP');
     console.log(data);
-    registerUser(data);
+    //@ts-ignore
+    dispatch(registerUser(data));
   };
   const onForgotPassword = () => {
     // navigator.navigate('ForgotPassword');
