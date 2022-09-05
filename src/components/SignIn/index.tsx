@@ -24,7 +24,7 @@ const SignIn: FC<Props> = (props) => {
     //@ts-ignore
     dispatch(authenticateUser(data));
     //@ts-ignore
-    navigation.navigate('Home');
+    setTimeout(() => navigation.navigate('Home'), 1000);
   };
   const onSignUp = () => {
     //@ts-ignore
@@ -44,7 +44,7 @@ const SignIn: FC<Props> = (props) => {
           <Text style={styles.text}>Welcome to Femme</Text>
           <ControlledInput
             control={control}
-            name="username"
+            name="login"
             type="e-mail"
             placeholder="Enter your email/username"
             rules={{ required: 'Username is required' }}

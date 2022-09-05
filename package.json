@@ -14,9 +14,14 @@
     "check-types:watch": "tsc --noEmit --watch"
   },
   "dependencies": {
+    "@ant-design/react-native": "^5.0.1",
     "@expo/webpack-config": "^0.17.0",
+    "@react-native-picker/picker": "^2.4.4",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
+    "@reduxjs/toolkit": "^1.8.2",
+    "@types/antd": "^1.0.0",
+    "@types/redux-logger": "^3.0.9",
     "expo": "~46.0.9",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
@@ -31,10 +36,7 @@
     "react-redux": "8.0.2",
     "react-router-dom": "^6.3.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.4.1",
-    "@reduxjs/toolkit": "^1.8.2",
-    "@types/antd": "^1.0.0",
-    "@types/redux-logger": "^3.0.9"
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { FC } from 'react';
 import Calendar from '../Calendar';
-import COLORS from '../../colors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { IState, Track, getData } from '../../store/sliceData';
+import { IState, getData, postData } from '../../store/sliceData';
 import { IUsersState } from '../../store/sliceUser';
+import { useForm } from 'react-hook-form';
+import RoundButton from '../RoundButton';
+
 type Props = {};
 
 const Home: FC<Props> = (props) => {
@@ -15,25 +17,19 @@ const Home: FC<Props> = (props) => {
   useEffect(() => {
     dispatch(getData());
   }, []);
-  const { ...tracks }: Record<number, Track> = useAppSelector(
+
+  const { ...tracks } = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
       state.dataSliceReducer.tracks
   );
+  const periods = Object.values(tracks);
 
-  console.log('TRACKS');
-  console.log(JSON.stringify(tracks));
-
+  let [date, setDate] = useState('');
   return (
     <View style={styles.container}>
       <View>
-        <Calendar></Calendar>
-        {/* <FlatList
-        data={tracks}
-        renderItem={({number, track}) => <Text>{track}</Text>}
-      />
-        {Object.entries(tracks).forEach((element) => {
-          <>{element}</View>;
-        })} */}
+        <Calendar setDate={setDate} periods={periods}></Calendar>
+        <RoundButton date={date} />
       </View>
     </View>
   );
