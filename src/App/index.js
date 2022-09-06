@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignIn from '../components/SignIn';
+import Welcome from '../components/Welcome';
 import SignUp from '../components/SignUp';
 import Home from '../components/Home';
 import ForgotPassword from '../components/ForgotPassword';
@@ -12,7 +13,13 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignIn">
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="Welcome"
+        >
+          <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="Sign In" component={SignIn} />
           <Stack.Screen name="Sign Up" component={SignUp} />
           <Stack.Screen name="Home" component={Home} />

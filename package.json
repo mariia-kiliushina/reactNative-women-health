@@ -1,17 +1,21 @@
 {
   "name": "reactnative-women-health",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "rn-debugger": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "start-simple": "expo start",
+    "android-simple": "expo start --android",
+    "ios-simple": "expo start --ios",
     "web": "expo start --web",
     "storybook": "start-storybook -p 7007",
     "prestorybook": "rnstl",
     "build-storybook": "build-storybook",
     "check-types": "tsc --noEmit",
-    "check-types:watch": "tsc --noEmit --watch"
+    "check-types:watch": "tsc --noEmit --watch",
+    "react-devtools": "react-devtools"
   },
   "dependencies": {
     "@ant-design/react-native": "^5.0.1",
@@ -23,8 +27,10 @@
     "@types/antd": "^1.0.0",
     "@types/redux-logger": "^3.0.9",
     "expo": "~46.0.9",
+    "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
+    "react-devtools": "^4.25.0",
     "react-dom": "18.0.0",
     "react-hook-form": "^7.34.2",
     "react-native": "0.69.5",

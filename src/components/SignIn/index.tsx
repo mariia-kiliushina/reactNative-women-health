@@ -6,7 +6,7 @@ import COLORS from '../../colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
-import girlWithFlowers from '../../assets/girl-flowers.png';
+import girlWithFlowers from '../../assets/girl-flowers.jpeg';
 import { authenticateUser } from '../../store/sliceData';
 import { useDispatch } from 'react-redux';
 type Props = {};
@@ -64,6 +64,7 @@ const SignIn: FC<Props> = (props) => {
           <Text style={styles.text}>or</Text>
           <Button type="primary" title="Sign Up" onPress={onSignUp} />
         </View>
+        <Button title="Go back" onPress={() => navigation.goBack()} />
       </View>
     </ScrollView>
   );

@@ -6,7 +6,7 @@ import COLORS from '../../colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
-import girlWithFlowers from '../../assets/girl-flowers.png';
+import girlWithFlowers from '../../assets/girl-flowers.jpeg';
 import { registerUser } from '../../store/sliceData';
 import { useDispatch } from 'react-redux';
 type Props = {};

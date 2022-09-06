@@ -91,8 +91,8 @@ const buttonStyles = StyleSheet.create({
     borderRadius: 12,
     cursor: 'pointer',
     fontWeight: 500,
-    height: 'fit-content',
-    width: 'fit-content',
+    height: 50,
+    width: 200,
   },
   primary: {
     backgroundColor: COLORS.colorPrimary,

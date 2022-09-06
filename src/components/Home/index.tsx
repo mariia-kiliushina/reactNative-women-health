@@ -5,14 +5,16 @@ import Calendar from '../Calendar';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { IState, getData, postData } from '../../store/sliceData';
 import { IUsersState } from '../../store/sliceUser';
-import { useForm } from 'react-hook-form';
 import RoundButton from '../RoundButton';
+import Button from '../Button';
+import { useNavigation } from '@react-navigation/native';
 
 type Props = {};
 
 const Home: FC<Props> = (props) => {
   const {} = props;
   const {} = styles;
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getData());
@@ -31,6 +33,7 @@ const Home: FC<Props> = (props) => {
         <Calendar setDate={setDate} periods={periods}></Calendar>
         <RoundButton date={date} />
       </View>
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 };
