@@ -29,7 +29,7 @@ const MyCalendar: FC<Props> = (props) => {
     });
 
   return (
-    <View>
+    <View style={styles.container}>
       <Calendar
         markingType={'period'}
         markedDates={{
@@ -56,6 +56,12 @@ const MyCalendar: FC<Props> = (props) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: 300,
+    backgroundColor: 'black',
+  },
+});
 
 export default MyCalendar;

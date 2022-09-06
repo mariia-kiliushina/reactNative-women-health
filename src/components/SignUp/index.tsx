@@ -9,6 +9,7 @@ import ControlledInput from '../ControlledInput';
 import girlWithFlowers from '../../assets/girl-flowers.jpeg';
 import { registerUser } from '../../store/sliceData';
 import { useDispatch } from 'react-redux';
+import GoBackButton from 'components/GoBackButton';
 
 type Props = {};
 const EMAIL_REGEX = /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/;
@@ -83,7 +84,9 @@ const SignUp: FC<Props> = (props) => {
             }}
           /> */}
           <Button title="Sign Up" onPress={handleSubmit(onSignUp)} />
-          <Button title="Go back" onPress={() => navigation.goBack()} />
+          <View style={{ position: 'absolute', top: 100, left: 20 }}>
+            <GoBackButton type="flat" onPress={() => navigation.goBack()} />
+          </View>
           <View style={styles.imageContainer}>
             <Image source={girlWithFlowers} style={[styles.image, { height: height * 0.3 }]} />
           </View>

@@ -101,7 +101,12 @@ export const postData = createAsyncThunk('postData', async (newTrack: Track, thu
 const dataSlice = createSlice({
   name: 'period-data',
   initialState,
-  reducers: {},
+  reducers: {
+    clearAll(state) {
+      state.accessToken = '';
+      state.tracks = [];
+    },
+  },
   extraReducers: {
     //@ts-ignore
     [authenticateUser.fulfilled]: (state, action) => {
@@ -133,4 +138,4 @@ const dataSlice = createSlice({
 });
 
 export default dataSlice.reducer;
-export const {} = dataSlice.actions;
+export const { clearAll } = dataSlice.actions;

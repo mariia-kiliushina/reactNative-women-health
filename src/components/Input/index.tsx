@@ -38,6 +38,7 @@ const MyInput: FC<Props> = (props) => {
     // const [text, onChangeText] = React.useState('');
     <View style={[styles.bordered, style]}>
       <TextInput
+        autoCapitalize="none"
         secureTextEntry={type === 'password'}
         onChangeText={onChangeText}
         onBlur={onBlur}

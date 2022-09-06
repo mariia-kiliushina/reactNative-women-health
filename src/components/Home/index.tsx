@@ -8,6 +8,7 @@ import { IUsersState } from '../../store/sliceUser';
 import RoundButton from '../RoundButton';
 import Button from '../Button';
 import { useNavigation } from '@react-navigation/native';
+import GoBackButton from 'components/GoBackButton';
 
 type Props = {};
 
@@ -29,20 +30,34 @@ const Home: FC<Props> = (props) => {
   let [date, setDate] = useState('');
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.contentWrapper}>
         <Calendar setDate={setDate} periods={periods}></Calendar>
         <RoundButton date={date} />
       </View>
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <View style={{ position: 'absolute', top: 100, left: 20 }}>
+        <GoBackButton type="flat" onPress={() => navigation.goBack()} />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    display: 'flex',
     alignItems: 'center',
-    borderRadius: 12,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    flex: 1,
+  },
+  contentWrapper: {
+    height: '100%',
+    width: '90%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flex: 1,
   },
 });
 

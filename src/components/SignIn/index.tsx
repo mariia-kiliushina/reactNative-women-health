@@ -6,7 +6,7 @@ import COLORS from '../../colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
-import { authenticateUser } from '../../store/sliceData';
+import { authenticateUser, clearAll } from '../../store/sliceData';
 import { useDispatch } from 'react-redux';
 import GoBackButton from 'components/GoBackButton';
 
@@ -14,7 +14,6 @@ type Props = {};
 
 const SignIn: FC<Props> = (props) => {
   const dispatch = useDispatch();
-  const { height } = useWindowDimensions();
   const navigation = useNavigation();
   const {
     control,
@@ -22,10 +21,11 @@ const SignIn: FC<Props> = (props) => {
     formState: { errors },
   } = useForm();
   const onSignIn = (data: any) => {
+    dispatch(clearAll());
     //@ts-ignore
-    dispatch(authenticateUser(data));
+    setTimeout(() => dispatch(authenticateUser(data)), 1000);
     //@ts-ignore
-    setTimeout(() => navigation.navigate('Home'), 1000);
+    setTimeout(() => navigation.navigate('Home'), 2000);
   };
   const onSignUp = () => {
     //@ts-ignore
@@ -37,14 +37,14 @@ const SignIn: FC<Props> = (props) => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.inputsContainer}>
+      <View style={styles.inputsWrapper}>
         <Text style={styles.text}>Sign In</Text>
         <ControlledInput
           style={styles.input}
           control={control}
           name="login"
           type="e-mail"
-          placeholder="Enter your email/username"
+          placeholder="Email or username"
           rules={{ required: 'Username is required' }}
         />
         <ControlledInput
@@ -52,7 +52,7 @@ const SignIn: FC<Props> = (props) => {
           control={control}
           name="password"
           type="password"
-          placeholder="Enter your password"
+          placeholder="Password"
           rules={{
             required: 'Password is required',
           }}
@@ -71,7 +71,7 @@ const SignIn: FC<Props> = (props) => {
           onPress={handleSubmit(onSignIn)}
         />
         <View style={styles.registerWrapper}>
-          <Text style={styles.newToText}>New to Fenmme?</Text>
+          <Text style={styles.newToText}>New to Femme?</Text>
           <Button style={{ width: 50 }} type="flat" title="Register" onPress={onSignUp} />
         </View>
       </View>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-  inputsContainer: {
+  inputsWrapper: {
     height: '100%',
     width: '90%',
     display: 'flex',
