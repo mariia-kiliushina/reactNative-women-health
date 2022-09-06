@@ -58,9 +58,9 @@ const MyCalendar: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: 50,
     width: 300,
-    backgroundColor: 'black',
+    backgroundColor: 'blue',
   },
 });
 
