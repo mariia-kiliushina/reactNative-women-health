@@ -4,8 +4,7 @@ import { FC } from 'react';
 import Button from 'components/Button';
 import COLORS from '../../colors';
 import { useNavigation } from '@react-navigation/native';
-import { useForm } from 'react-hook-form';
-import girlWithFlowers from '../../assets/girl-flowers.jpeg';
+import girlWithFlowers from '../../assets/girl-flowers-removebg.png';
 type Props = {};
 
 const Welcome: FC<Props> = (props) => {
@@ -49,8 +48,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    columnGap: 20,
-    backgroundColor: COLORS.colorSupportingBeige,
+    backgroundColor: 'white',
     flex: 1,
   },
   buttonsContainer: {
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
     left: 0,
   },
   imageContainer: {
-    backgroundColor: COLORS.colorSupportingBeige,
+    backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

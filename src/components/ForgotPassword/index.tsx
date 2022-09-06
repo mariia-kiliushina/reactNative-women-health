@@ -6,7 +6,6 @@ import COLORS from '../../colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
-
 type Props = {};
 
 const ForgotPassword: FC<Props> = (props) => {
@@ -33,6 +32,7 @@ const ForgotPassword: FC<Props> = (props) => {
 
           <Button title="Reset password" onPress={() => console.log('Reset')} />
         </View>
+        <Button title="Go back" onPress={() => navigation.goBack()} />
       </View>
     </ScrollView>
   );

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, useWindowDimensions } from 'react-native';
+import { StyleSheet, View, Text, Image, useWindowDimensions } from 'react-native';
 import { FC } from 'react';
 import Button from 'components/Button';
 import COLORS from '../../colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from '../ControlledInput';
-import girlWithFlowers from '../../assets/girl-flowers.jpeg';
 import { authenticateUser } from '../../store/sliceData';
 import { useDispatch } from 'react-redux';
+import GoBackButton from 'components/GoBackButton';
+
 type Props = {};
 
 const SignIn: FC<Props> = (props) => {
@@ -35,72 +36,88 @@ const SignIn: FC<Props> = (props) => {
     navigation.navigate('Forgot Password');
   };
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={girlWithFlowers} style={[styles.image, { height: height * 0.3 }]} />
-        </View>
-        <View style={styles.inputsContainer}>
-          <Text style={styles.text}>Welcome to Femme</Text>
-          <ControlledInput
-            control={control}
-            name="login"
-            type="e-mail"
-            placeholder="Enter your email/username"
-            rules={{ required: 'Username is required' }}
-          />
-          <ControlledInput
-            control={control}
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            rules={{
-              required: 'Password is required',
-            }}
-          />
+    <View style={styles.container}>
+      <View style={styles.inputsContainer}>
+        <Text style={styles.text}>Sign In</Text>
+        <ControlledInput
+          style={styles.input}
+          control={control}
+          name="login"
+          type="e-mail"
+          placeholder="Enter your email/username"
+          rules={{ required: 'Username is required' }}
+        />
+        <ControlledInput
+          style={styles.input}
+          control={control}
+          name="password"
+          type="password"
+          placeholder="Enter your password"
+          rules={{
+            required: 'Password is required',
+          }}
+        />
 
-          <Button type="primary" title="Sign In" onPress={handleSubmit(onSignIn)} />
-          <Button type="primary" title="Forgot password?" onPress={onForgotPassword} />
-          <Text style={styles.text}>or</Text>
-          <Button type="primary" title="Sign Up" onPress={onSignUp} />
+        <Button
+          style={{ alignSelf: 'flex-end' }}
+          type="flat"
+          title="Forgot password?"
+          onPress={onForgotPassword}
+        />
+        <Button
+          style={{ marginVertical: 30, alignSelf: 'flex-end' }}
+          type="primary"
+          title="Sign In"
+          onPress={handleSubmit(onSignIn)}
+        />
+        <View style={styles.registerWrapper}>
+          <Text style={styles.newToText}>New to Fenmme?</Text>
+          <Button style={{ width: 50 }} type="flat" title="Register" onPress={onSignUp} />
         </View>
-        <Button title="Go back" onPress={() => navigation.goBack()} />
       </View>
-    </ScrollView>
+      <View style={{ position: 'absolute', top: 100, left: 20 }}>
+        <GoBackButton type="flat" onPress={() => navigation.goBack()} />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 500,
-    width: 500,
+    height: '100%',
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    columnGap: 20,
+    backgroundColor: 'white',
+    flex: 1,
+  },
+  registerWrapper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
   inputsContainer: {
+    height: '100%',
+    width: '90%',
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    rowGap: 25,
+    backgroundColor: 'white',
+    flex: 1,
   },
-  image: {
-    height: 300,
-    width: 300,
-  },
-  imageContainer: {
-    backgroundColor: COLORS.colorSupportingBeige,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
+  input: { width: '90%', marginBottom: 40, fontSize: 39 },
   text: {
     color: COLORS.colorGreyscaleContent,
-    fontSize: 24,
+    fontSize: 32,
+    alignSelf: 'flex-start',
+    marginBottom: 50,
+    marginLeft: 20,
+  },
+  newToText: {
+    fontSize: 18,
   },
 });
 

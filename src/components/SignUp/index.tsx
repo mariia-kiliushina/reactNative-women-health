@@ -9,6 +9,7 @@ import ControlledInput from '../ControlledInput';
 import girlWithFlowers from '../../assets/girl-flowers.jpeg';
 import { registerUser } from '../../store/sliceData';
 import { useDispatch } from 'react-redux';
+
 type Props = {};
 const EMAIL_REGEX = /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/;
 
@@ -41,6 +42,7 @@ const SignUp: FC<Props> = (props) => {
         <View style={styles.inputsContainer}>
           <Text style={styles.text}>Welcome to Femme</Text>
           <ControlledInput
+            style={{}}
             control={control}
             name="login"
             placeholder="Enter your username"
@@ -54,6 +56,7 @@ const SignUp: FC<Props> = (props) => {
             rules={{ required: 'Username is required', pattern: EMAIL_REGEX }}
           /> */}
           <ControlledInput
+            style={{}}
             control={control}
             name="password"
             type="password"
@@ -92,12 +95,14 @@ const SignUp: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 500,
-    width: 500,
+    height: '100%',
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     columnGap: 20,
+    backgroundColor: 'white',
+    flex: 1,
   },
   inputsContainer: {
     display: 'flex',

@@ -11,11 +11,19 @@ type Props = {
   type?: Ttype;
   placeholder: string;
   isError?: boolean | undefined;
+  style?: any;
 };
 
 const MyInput: FC<Props> = (props) => {
-  const { placeholder, value, type = 'default', onChangeText, onBlur, isError = false } = props;
-  // const [text, onChangeText] = React.useState('');
+  const {
+    style,
+    placeholder,
+    value,
+    type = 'default',
+    onChangeText,
+    onBlur,
+    isError = false,
+  } = props;
   const getKeyboardType = (type: Ttype) => {
     switch (type) {
       case 'e-mail':
@@ -27,7 +35,8 @@ const MyInput: FC<Props> = (props) => {
   };
 
   return (
-    <View>
+    // const [text, onChangeText] = React.useState('');
+    <View style={[styles.bordered, style]}>
       <TextInput
         secureTextEntry={type === 'password'}
         onChangeText={onChangeText}
@@ -42,14 +51,17 @@ const MyInput: FC<Props> = (props) => {
 };
 
 const styles = StyleSheet.create({
+  bordered: {
+    borderBottomColor: COLORS.colorSupportingDarkBlue,
+    borderBottomWidth: 1,
+  },
   input: {
     margin: 0,
     height: 40,
-    width: '100%',
-    borderWidth: 1,
+    width: 250,
     padding: 10,
-    borderRadius: 8,
     backgroundColor: 'white',
+    fontSize: 20,
   },
   error: {
     borderColor: COLORS.colorSupportingErrorred,

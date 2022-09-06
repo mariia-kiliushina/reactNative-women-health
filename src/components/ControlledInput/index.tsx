@@ -11,10 +11,11 @@ type Props = {
   type?: Ttype;
   placeholder: string;
   rules: {};
+  style?: any;
 };
 
 const ControlledInput: FC<Props> = (props) => {
-  const { name, control, placeholder, type = 'default', rules } = props;
+  const { name, control, placeholder, type = 'default', rules, style } = props;
 
   return (
     <Controller
@@ -24,6 +25,7 @@ const ControlledInput: FC<Props> = (props) => {
       render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <View style={styles.container}>
           <Input
+            style={style}
             isError={error ? true : false}
             placeholder={placeholder}
             type={type}

@@ -1,17 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { FC } from 'react';
 import COLORS from '../../colors';
+import arrow_primary from '../../assets/arrow-primary.png';
+
 type Props = {
   type?: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';
   size?: 'small' | 'medium' | 'large';
-  title: string;
   onPress: () => void;
   style?: any;
 };
 
-const MyButton: FC<Props> = (props) => {
-  const { style, title, onPress, type = 'primary', size = 'medium' } = props;
+const GoBackButton: FC<Props> = (props) => {
+  const { style, onPress, type = 'primary', size = 'medium' } = props;
   const { defaultButton, primary, secondary, disabled, danger, outlined, flat } = buttonStyles;
   const { small, medium, large, whiteText, blueText, disabledText } = textStyles;
   const customTypeStyle = (type: string) => {
@@ -60,16 +61,12 @@ const MyButton: FC<Props> = (props) => {
     return blueText;
   };
   const combinedViewStyles = StyleSheet.flatten([defaultButton, customTypeStyle(type)]);
-  const combinedTextStyles = StyleSheet.flatten([
-    customTextColorStyle(type),
-    customSizeStyle(size),
-  ]);
 
   return (
     <View style={[viewStyles.container, style]}>
       <TouchableOpacity onPress={onPress}>
         <View style={combinedViewStyles}>
-          <Text style={combinedTextStyles}>{title}</Text>
+          <Image source={arrow_primary} style={{ height: 30, width: 30 }}></Image>
         </View>
       </TouchableOpacity>
     </View>
@@ -91,9 +88,8 @@ const buttonStyles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 12,
     cursor: 'pointer',
-    fontWeight: 500,
-    height: 50,
-    width: 200,
+    height: 40,
+    width: 70,
   },
   primary: {
     backgroundColor: COLORS.colorPrimary,
@@ -127,20 +123,20 @@ const textStyles = StyleSheet.create({
     color: COLORS.colorGreyscaleSecondaryGrey,
   },
   small: {
-    fontSize: 14,
+    fontSize: 13,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
   medium: {
-    fontSize: 18,
+    fontSize: 16,
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
   large: {
-    fontSize: 22,
+    fontSize: 20,
     paddingHorizontal: 24,
     paddingVertical: 20,
   },
 });
 
-export default MyButton;
+export default GoBackButton;
