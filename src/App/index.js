@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignIn from '../components/SignIn';
 import Welcome from '../components/Welcome';
 import SignUp from '../components/SignUp';
+import Test from '../components/Test';
 import Home from '../components/Home';
 import ForgotPassword from '../components/ForgotPassword';
 import store from '../store';
@@ -22,6 +23,7 @@ export default function App() {
           initialRouteName="Welcome"
         >
           <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="Test" component={Test} />
           <Stack.Screen name="Sign In" component={SignIn} />
           <Stack.Screen name="Sign Up" component={SignUp} />
           <Stack.Screen name="Home" component={Home} />

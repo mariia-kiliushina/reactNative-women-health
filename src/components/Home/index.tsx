@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, Button, Text, TouchableOpacity, FlatList } from 'react-native';
 import { FC } from 'react';
 import CalendarStrip from '../CalendarStrip';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -8,7 +8,9 @@ import { IUsersState } from '../../store/sliceUser';
 import RoundButton from '../RoundButton';
 import { useNavigation } from '@react-navigation/native';
 import GoBackButton from 'components/GoBackButton';
-
+import TodaysLogs from 'components/TodaysLogs';
+import Menu from 'components/Menu';
+import Test from 'components/Test';
 type Props = {};
 
 const Home: FC<Props> = (props) => {
@@ -32,10 +34,14 @@ const Home: FC<Props> = (props) => {
       <View style={styles.contentWrapper}>
         <CalendarStrip />
         <RoundButton date={date} />
+        <TodaysLogs />
+        <Menu />
       </View>
       <View style={{ position: 'absolute', top: 100, left: 20 }}>
         <GoBackButton type="flat" onPress={() => navigation.goBack()} />
       </View>
+      <Test />
+      {/* @ts-ignore */}
     </View>
   );
 };
@@ -57,7 +63,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    flex: 0.8,
+    flex: 1,
   },
 });
 

@@ -1,17 +1,19 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { FC } from 'react';
 import COLORS from '../../colors';
 type Props = {
   type?: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';
   size?: 'small' | 'medium' | 'large';
-  title: string;
+  title?: string;
   onPress: () => void;
   style?: any;
+  imageSrc?: ImageSourcePropType;
+  imageStyle?: any;
 };
 
 const MyButton: FC<Props> = (props) => {
-  const { style, title, onPress, type = 'primary', size = 'medium' } = props;
+  const { style, imageStyle, title, imageSrc, onPress, type = 'primary', size = 'medium' } = props;
   const { defaultButton, primary, secondary, disabled, danger, outlined, flat } = buttonStyles;
   const { small, medium, large, whiteText, blueText, disabledText } = textStyles;
   const customTypeStyle = (type: string) => {
@@ -68,8 +70,9 @@ const MyButton: FC<Props> = (props) => {
   return (
     <View style={[viewStyles.container, style]}>
       <TouchableOpacity onPress={onPress}>
-        <View style={combinedViewStyles}>
-          <Text style={combinedTextStyles}>{title}</Text>
+        <View style={[combinedViewStyles, style]}>
+          {title && <Text style={combinedTextStyles}>{title}</Text>}
+          {imageSrc && <Image source={imageSrc} style={imageStyle} />}
         </View>
       </TouchableOpacity>
     </View>
