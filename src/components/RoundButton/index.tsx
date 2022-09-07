@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Alert, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ControlledInput from 'components/ControlledInput';
 import Button from '../Button';
 import { Picker } from '@react-native-picker/picker';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
-import { date } from '@storybook/addon-knobs';
 import { postData } from 'store/sliceData';
+import COLORS from '../../colors';
 
 type Props = {
   date: string;
@@ -45,50 +45,47 @@ const RoundButton: FC<Props> = (props) => {
               rules={{}}
               control={control}
               render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => ( */}
-            {/* <View style={styles.container}> */}
-            <Picker onBlur={() => {}} onValueChange={() => {}} selectedValue={selected}>
-              <Picker.Item label="Choose type" value="choose" />
-              <Picker.Item label="Had Flows" value="Had flows" />
-              <Picker.Item label="No flows" value="No flows" />
-              <Picker.Item label="Meds" value="Meds" />
-            </Picker>
-            {/* {error && <Text>{error.message || 'Error'}</Text>} */}
-            {/* </View> */}
+            <View style={styles.container}>
+              <Picker onBlur={() => {}} onValueChange={() => {}} selectedValue={selected}>
+                <Picker.Item label="Choose type" value="choose" />
+                <Picker.Item label="Had Flows" value="Had flows" />
+                <Picker.Item label="No flows" value="No flows" />
+                <Picker.Item label="Meds" value="Meds" />
+              </Picker>
+              {/* {error && <Text>{error.message || 'Error'}</Text>} */}
+            </View>
             {/* )}
             /> */}
             {/* <Controller
               name="severity"
               rules={{}}
               control={control}
-              render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-                <View style={styles.container}>
-                  <Picker onBlur={onBlur} onValueChange={onChange} selectedValue={selected}>
-                    <Picker.Item label="Choose severity" value="chooseseverity" />
-                    <Picker.Item label="Low" value="low" />
-                    <Picker.Item label="Medium" value="medium" />
-                    <Picker.Item label="High" value="high" />
-                  </Picker>
-                  {error && <Text>{error.message || 'Error'}</Text>}
-                </View>
-              )}
+              render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => ( */}
+            <View style={styles.container}>
+              <Picker onBlur={() => {}} onValueChange={() => {}} selectedValue={selected}>
+                <Picker.Item label="Choose severity" value="chooseseverity" />
+                <Picker.Item label="Low" value="low" />
+                <Picker.Item label="Medium" value="medium" />
+                <Picker.Item label="High" value="high" />
+              </Picker>
+              {/* {error && <Text>{error.message || 'Error'}</Text>} */}
+            </View>
+            {/* )}
             /> */}
 
             <Button type="primary" title="Submit" onPress={handleSubmit(onSubmit)} />
-            <TouchableHighlight
-              style={[styles.button, styles.buttonClose]}
+            <TouchableOpacity
+              style={[styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
-      <TouchableHighlight
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
+      <TouchableOpacity style={[styles.button]} onPress={() => setModalVisible(true)}>
         <Text style={styles.textStyle}>Show Modal</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -96,7 +93,7 @@ const RoundButton: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     borderRadius: 12,
   },
   centeredView: {
@@ -121,20 +118,29 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    backgroundColor: COLORS.colorPrimary,
+    height: 200,
+    width: 200,
     padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
+    margin: 20,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.colorPrimary,
+    height: 50,
+    width: 100,
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
+    fontSize: 24,
   },
   modalText: {
     marginBottom: 15,

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { FC } from 'react';
 import CalendarStrip from 'react-native-calendar-strip';
+import { getFormatedDateFromGMTObject } from '../../helpers';
 import COLORS from '../../colors';
 type Props = {};
 
 const MyCalendarStrip: FC<Props> = (props) => {
+  const [selectedDate, setSelectedDate] = useState('');
+
+  const onDateSelected = (date: any) => {
+    setSelectedDate(getFormatedDateFromGMTObject(date._d));
+  };
+
   return (
     <View style={styles.container}>
       <CalendarStrip
@@ -21,24 +28,40 @@ const MyCalendarStrip: FC<Props> = (props) => {
           minWidth: 1,
           width: '100%',
           flex: 1,
-          paddingBottom: 5,
-          paddingTop: 10,
+          justifyContent: 'space-around',
         }}
         calendarHeaderStyle={{ color: 'white' }}
         calendarColor={COLORS.colorSecondaryLight}
-        dateNumberStyle={{ color: 'white', fontSize: 16 }}
-        dateNameStyle={{ color: 'white', fontSize: 12 }}
-        highlightDateNumberStyle={{ color: 'white', fontSize: 18 }}
-        highlightDateNameStyle={{ color: 'white' }}
+        dateNumberStyle={{ color: 'white', fontSize: 24 }}
+        dateNameStyle={{ color: 'white', fontSize: 16 }}
+        highlightDateNumberStyle={{ color: 'white', fontSize: 30 }}
+        highlightDateNameStyle={{ color: 'white', fontSize: 16 }}
+        highlightDateContainerStyle={{
+          flex: 1.4,
+          borderRadius: 20,
+          paddingVertical: 10,
+          paddingHorizontal: 5,
+        }}
         iconContainer={{ flex: 0.1 }}
+        iconStyle={{ flex: 0 }}
         selectedDate={new Date()}
+        dayContainerStyle={{
+          height: 90,
+          flex: 1,
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          paddingVertical: 10,
+          paddingHorizontal: 5,
+        }}
+        dayComponentHeight={90}
+        onDateSelected={onDateSelected}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { height: 100, width: '100%' },
+  container: { height: 140, width: '100%' },
 });
 
 export default MyCalendarStrip;

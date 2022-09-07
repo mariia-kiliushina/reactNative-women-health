@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { FC } from 'react';
-import Calendar from '../Calendar';
+import CalendarStrip from '../CalendarStrip';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { IState, getData, postData } from '../../store/sliceData';
 import { IUsersState } from '../../store/sliceUser';
 import RoundButton from '../RoundButton';
-import Button from '../Button';
 import { useNavigation } from '@react-navigation/native';
 import GoBackButton from 'components/GoBackButton';
 
@@ -31,7 +30,7 @@ const Home: FC<Props> = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
-        <Calendar setDate={setDate} periods={periods}></Calendar>
+        <CalendarStrip />
         <RoundButton date={date} />
       </View>
       <View style={{ position: 'absolute', top: 100, left: 20 }}>
@@ -47,17 +46,17 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: 'white',
     flex: 1,
-    paddingTop: 80,
+    paddingTop: 20,
   },
   contentWrapper: {
     height: '100%',
     width: '90%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     flex: 0.8,
   },
 });
