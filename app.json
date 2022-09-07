@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "women-health",
-    "slug": "expo.dev/@markil/women-health",
+    "name": "womenhealth",
+    "slug": "womenhealth",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,11 +17,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.women-health",
+      "bundleIdentifier": "com.womenhealth.myapp",
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.women-health",
+      "package": "com.womenhealth.myapp",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

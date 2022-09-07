@@ -26,6 +26,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@types/redux-logger": "^3.0.9",
     "expo": "~46.0.9",
+    "expo-dev-client": "^1.2.1",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "moment": "^2.29.4",
