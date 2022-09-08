@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FC } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { postData } from 'store/sliceData';
 import COLORS from '../../colors';
+import { IState } from 'store/sliceData';
+import { IUsersState } from 'store/sliceUser';
 
 type Props = {
   date: string;
 };
 const RoundButton: FC<Props> = (props) => {
-  const { date } = props;
-
-  const dispatch = useAppDispatch();
-
+  const selectedCalendarDate = useAppSelector(
+    (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
+      state.dataSliceReducer.selectedCalendarDate
+  );
   return (
     <View>
       <TouchableOpacity style={[styles.button]} onPress={() => {}}>
-        <Text style={styles.dayNumberStyle}>5th</Text>
+        <Text style={styles.dayNumberStyle}>{selectedCalendarDate}</Text>
         <Text style={styles.textStyle}>day of cycle</Text>
       </TouchableOpacity>
     </View>
@@ -24,32 +25,6 @@ const RoundButton: FC<Props> = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    // alignItems: 'center',
-    borderRadius: 12,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    // alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   button: {
     display: 'flex',
     justifyContent: 'center',
@@ -61,29 +36,18 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 20,
   },
-  buttonClose: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.colorPrimary,
-    height: 50,
-    width: 100,
-  },
+
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 20,
   },
   dayNumberStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 18,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+    fontSize: 36,
   },
 });
 

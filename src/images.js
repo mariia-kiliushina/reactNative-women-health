@@ -1,4 +1,7 @@
 const imagesSources = {
+  light: require('../src/assets/light.png'),
+  normal: require('../src/assets/normal.png'),
+  heavy: require('../src/assets/heavy.png'),
   headache: require('../src/assets/headache.png'),
   spotting: require('../src/assets/spotting.png'),
   girlWithFlowers: require('../src/assets/girl-flowers-removebg.png'),

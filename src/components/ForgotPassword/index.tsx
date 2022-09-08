@@ -10,7 +10,6 @@ import GoBackButton from '../GoBackButton';
 type Props = {};
 
 const ForgotPassword: FC<Props> = (props) => {
-  // const dispatch = useDispatch();
   const navigation = useNavigation();
   const {
     control,

@@ -24,7 +24,6 @@ const Main: FC<Props> = (props) => {
           } else if (route.name === 'Calendar') {
             iconName = 'calendar';
           }
-          // You can return any component that you like here!
           //@ts-ignore
           return <Ionicons name={iconName} size={size} color={color} />;
         },

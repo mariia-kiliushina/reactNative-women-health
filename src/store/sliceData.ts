@@ -1,10 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Track {
   id?: number;
   date: string;
-  type: string;
-  severity: string;
+  flows: any;
+  symptoms: any;
+  mood: any;
 }
 
 export type IState = {
@@ -13,6 +14,7 @@ export type IState = {
   error: string;
   tracks: Record<number, Track>;
   users: any[];
+  selectedCalendarDate: string;
 };
 export interface User {
   login: string;
@@ -25,6 +27,7 @@ const initialState: IState = {
   error: '',
   tracks: [],
   users: [],
+  selectedCalendarDate: '',
 };
 
 // const URL_PREFIX = 'https://women-health-backend.herokuapp.com/api/';
@@ -106,6 +109,9 @@ const dataSlice = createSlice({
       state.accessToken = '';
       state.tracks = [];
     },
+    setSelectedCalendarDate(state, action: PayloadAction<string>) {
+      state.selectedCalendarDate = action.payload;
+    },
   },
   extraReducers: {
     //@ts-ignore
@@ -138,4 +144,4 @@ const dataSlice = createSlice({
 });
 
 export default dataSlice.reducer;
-export const { clearAll } = dataSlice.actions;
+export const { clearAll, setSelectedCalendarDate } = dataSlice.actions;

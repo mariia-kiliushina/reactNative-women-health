@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -13,22 +13,34 @@ type Props = {
   marked?: boolean;
   source: ImageSourcePropType;
   symptomText: string;
+  value?: string | undefined;
+  onChange?(...event: any[]): void;
+  optionValue?: string;
 };
 
 const SymptomIcon: FC<Props> = (props) => {
-  const { marked = false, symptomText, source } = props;
-  const { symptomImage, markedImg, standard } = styles;
-  const [markedFromComponents, setMarkedFromComponents] = useState(marked);
-  const combinedStyles = StyleSheet.flatten([
-    symptomImage,
-    markedFromComponents ? markedImg : standard,
-  ]);
+  const { marked = false, optionValue, symptomText, source, onChange = () => {} } = props;
+  const { symptomImage, standard } = styles;
+
+  const isOptionSelected =
+    (props.value === props.optionValue &&
+      props.value !== undefined &&
+      props.optionValue !== undefined) ||
+    marked;
+
+  const combinedStyles = StyleSheet.flatten([symptomImage, standard]);
   return (
-    <TouchableWithoutFeedback onPress={() => setMarkedFromComponents((prevState) => !prevState)}>
-      <View style={styles.container}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        onChange(optionValue);
+      }}
+    >
+      <View style={[styles.container, { padding: 2 }]}>
         <Image source={source} style={combinedStyles} />
-        {markedFromComponents && (
-          <Image source={require('../../assets/marked.png')} style={styles.mark} />
+        {isOptionSelected && (
+          <View style={styles.mark}>
+            <Image source={require('../../assets/marked.png')} style={{ height: 12, width: 12 }} />
+          </View>
         )}
         <Text style={styles.symptomText}>{symptomText}</Text>
       </View>
@@ -56,23 +68,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  markedImg: {
-    borderRadius: 50,
-    border: `2px solid ${COLORS.colorSecondary}`,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
+
   mark: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
-    width: 12,
-    height: 12,
-    border: '1px solid white',
+    width: 16,
+    height: 16,
     borderRadius: 50,
     top: 40,
     left: 58,
-    backgroundColor: COLORS.colorSecondary,
+    backgroundColor: COLORS.colorSecondaryDark,
   },
   symptomText: {
     position: 'absolute',

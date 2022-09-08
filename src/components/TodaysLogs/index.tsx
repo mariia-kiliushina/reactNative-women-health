@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Modal, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Modal, View, Text, Image, TouchableOpacity, Pressable } from 'react-native';
 import { FC } from 'react';
 import Button from '../Button';
 import COLORS from '../../colors';
+import { getFormatedDateFromGMTObject } from '../../helpers';
+import images from '../../images';
 import { useNavigation } from '@react-navigation/native';
 import shevron_primary_30 from '../../assets/shevron-primary-30.png';
 import headache from '../../assets/headache.png';
@@ -14,15 +16,22 @@ import moodSwings from '../../assets/mood-swings.png';
 import crumps from '../../assets/crumps.png';
 import discharges from '../../assets/discharges.png';
 import hairLoss from '../../assets/hair-loss.png';
+import light from '../../assets/light.png';
+import normal from '../../assets/normal.png';
+import heavy from '../../assets/heavy.png';
 import SymptomIcon from '../SymptomIcon';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from 'hooks';
 import { postData } from 'store/sliceData';
+import { Control, Controller, FieldValues } from 'react-hook-form';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { IState, setSelectedCalendarDate } from '../../store/sliceData';
+import { useAppSelector } from 'hooks';
+import { IUsersState } from 'store/sliceUser';
 
 type Props = {};
 
 const TodaysLogs: FC<Props> = (props) => {
-  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
@@ -30,13 +39,51 @@ const TodaysLogs: FC<Props> = (props) => {
   } = useForm();
 
   const dispatch = useAppDispatch();
-  const [date, setDate] = useState('');
-  const [selected, setSelected] = useState();
+
+  const selectedCalendarDate = useAppSelector(
+    (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
+      state.dataSliceReducer.selectedCalendarDate
+  );
+
+  const date =
+    selectedCalendarDate === getFormatedDateFromGMTObject(new Date())
+      ? 'Today'
+      : selectedCalendarDate;
+
   const [modalVisible, setModalVisible] = useState(false);
   const onSubmit = (data: any) => {
-    let obj = { date: date, type: data.type, severity: data.severity };
-    dispatch(postData(obj));
+    let obj = { flows: data.flows, symptoms: data.symptoms, mood: data.mood };
+    if (Object.values(obj).some((value) => value !== undefined)) {
+      dispatch(postData({ date: date, ...obj }));
+      setModalVisible(!modalVisible);
+    } else {
+      setModalVisible(!modalVisible);
+    }
   };
+
+  const optionsFlows = [
+    { source: light, symptomText: 'No Flows', optionValue: 'no-flow' },
+    { source: light, symptomText: 'Light', optionValue: 'light' },
+    { source: normal, symptomText: 'Normal', optionValue: 'normal' },
+    { source: heavy, symptomText: 'Heavy', optionValue: 'heavy' },
+  ];
+
+  const optionsSymptoms = [
+    { source: headache, symptomText: 'headache', optionValue: 'headache' },
+    { source: acne, symptomText: 'acne', optionValue: 'acne' },
+    { source: spotting, symptomText: 'spotting', optionValue: 'spotting' },
+    { source: painfulSex, symptomText: 'painfulSex', optionValue: 'painfulSex' },
+    { source: hairLoss, symptomText: 'hairLoss', optionValue: 'hairLoss' },
+    { source: crumps, symptomText: 'crumps', optionValue: 'crumps' },
+    { source: discharges, symptomText: 'discharges', optionValue: 'discharges' },
+    { source: breastTenderness, symptomText: 'breastTenderness', optionValue: 'breastTenderness' },
+    { source: moodSwings, symptomText: 'moodSwings', optionValue: 'moodSwings' },
+  ];
+  const optionsMood = [
+    { source: light, symptomText: 'Good', optionValue: 'good' },
+    { source: normal, symptomText: 'Sad', optionValue: 'sad' },
+    { source: heavy, symptomText: 'Frisky', optionValue: 'frisky' },
+  ];
 
   return (
     <View style={[styles.container, styles.shadowProp]}>
@@ -52,49 +99,94 @@ const TodaysLogs: FC<Props> = (props) => {
           <View style={styles.modalView}>
             <View style={styles.colFlexWrapper}>
               <View style={styles.rowFlexWrapper}>
+                <Text style={styles.todayText}>{date}</Text>
+              </View>
+              <View style={styles.rowFlexWrapper}>
                 <Text style={styles.todayText}>Menstrual Flow</Text>
               </View>
               <View style={styles.rowFlexWrapper}>
-                <SymptomIcon source={headache} symptomText="No flow" marked={false} />
-                <SymptomIcon source={crumps} symptomText="Low" marked={false} />
-                <SymptomIcon source={discharges} symptomText="Medium" marked={false} />
-                <SymptomIcon source={discharges} symptomText="Heavy" marked={false} />
+                {optionsFlows.map(({ source, symptomText, optionValue }) => (
+                  <Controller
+                    key={optionValue}
+                    name="flows"
+                    rules={{}}
+                    control={control}
+                    render={({ field }) => (
+                      <View style={styles.rowFlexWrapper}>
+                        <SymptomIcon
+                          source={source}
+                          symptomText={symptomText}
+                          marked={false}
+                          value={field.value}
+                          onChange={field.onChange}
+                          optionValue={optionValue}
+                        />
+                      </View>
+                    )}
+                  />
+                ))}
               </View>
               <View style={styles.rowFlexWrapper}>
                 <Text style={styles.todayText}>Mood</Text>
               </View>
               <View style={styles.rowFlexWrapper}>
-                <SymptomIcon source={headache} symptomText="" marked={true} />
-                <SymptomIcon source={crumps} symptomText="" marked={true} />
-                <SymptomIcon source={discharges} symptomText="" marked={true} />
+                {optionsMood.map(({ source, symptomText, optionValue }) => (
+                  <Controller
+                    key={optionValue}
+                    name="mood"
+                    rules={{}}
+                    control={control}
+                    render={({ field }) => (
+                      <View style={styles.rowFlexWrapper}>
+                        <SymptomIcon
+                          source={source}
+                          symptomText={symptomText}
+                          marked={false}
+                          value={field.value}
+                          onChange={field.onChange}
+                          optionValue={optionValue}
+                        />
+                      </View>
+                    )}
+                  />
+                ))}
               </View>
               <View style={styles.rowFlexWrapper}>
                 <Text style={styles.todayText}>Symptoms</Text>
               </View>
               <View style={styles.rowFlexWrapper}>
-                <SymptomIcon source={headache} symptomText="" marked={true} />
-                <SymptomIcon source={spotting} symptomText="" marked={true} />
-                <SymptomIcon source={crumps} symptomText="" marked={true} />
-                <SymptomIcon source={discharges} symptomText="" marked={true} />
-                <SymptomIcon source={acne} symptomText="" marked={true} />
-                <SymptomIcon source={breastTenderness} symptomText="" marked={true} />
-                <SymptomIcon source={hairLoss} symptomText="" marked={true} />
-                <SymptomIcon source={moodSwings} symptomText="" marked={true} />
-                <SymptomIcon source={painfulSex} symptomText="" marked={true} />
+                {optionsSymptoms.map(({ source, symptomText, optionValue }) => (
+                  <Controller
+                    key={optionValue}
+                    name="symptoms"
+                    rules={{}}
+                    control={control}
+                    render={({ field }) => (
+                      <View style={styles.rowFlexWrapper}>
+                        <SymptomIcon
+                          source={source}
+                          symptomText={symptomText}
+                          marked={false}
+                          value={field.value}
+                          onChange={field.onChange}
+                          optionValue={optionValue}
+                        />
+                      </View>
+                    )}
+                  />
+                ))}
               </View>
             </View>
-            <Button
-              type="primary"
-              title="Hide Modal"
-              onPress={() => setModalVisible(!modalVisible)}
-            />
-            <Button type="primary" title="Submit" onPress={handleSubmit(onSubmit)} />
+
+            <Pressable onPress={handleSubmit(onSubmit)} style={styles.closePressable}>
+              <Ionicons name={'close'} size={40} color={'grey'} />
+            </Pressable>
           </View>
         </View>
       </Modal>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <View style={styles.rowFlexWrapper}>
-          <Text style={styles.todayText}>Today</Text>
+          <Text style={styles.todayText}>{date}</Text>
           <Button
             style={{ alignSelf: 'flex-end', width: 60, height: 60 }}
             imageStyle={{ width: 20, height: 20 }}
@@ -122,6 +214,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     height: 160,
   },
+  closePressable: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 5,
+    left: 180,
+    height: 90,
+    width: 90,
+  },
   shadowProp: {
     shadowColor: '#171717',
     shadowOffset: { width: 0, height: 2 },
@@ -136,7 +239,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   rowFlexWrapper: {
-    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

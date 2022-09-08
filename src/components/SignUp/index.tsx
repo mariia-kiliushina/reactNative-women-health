@@ -34,9 +34,7 @@ const SignUp: FC<Props> = (props) => {
     //@ts-ignore
     dispatch(registerUser(data));
   };
-  const onForgotPassword = () => {
-    // navigator.navigate('ForgotPassword');
-  };
+  const onForgotPassword = () => {};
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>

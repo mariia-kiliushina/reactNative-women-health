@@ -25,13 +25,13 @@ const Home: FC<Props> = (props) => {
   );
   const periods = Object.values(tracks);
 
-  let [date, setDate] = useState('');
+  let [date, setDate] = useState('2022-09-07');
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
         <CalendarStrip />
         <RoundButton date={date} />
-        <TodaysLogs />
+        <TodaysLogs date={date} />
         <Text>Your period is likely to start at 29th of September</Text>
       </View>
     </View>
