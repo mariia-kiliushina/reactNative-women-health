@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FC } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Alert, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import ControlledInput from 'components/ControlledInput';
-import Button from '../Button';
-import { Picker } from '@react-native-picker/picker';
-import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../hooks';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { postData } from 'store/sliceData';
 import COLORS from '../../colors';
 
@@ -14,77 +10,14 @@ type Props = {
 };
 const RoundButton: FC<Props> = (props) => {
   const { date } = props;
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   const dispatch = useAppDispatch();
-  const [selected, setSelected] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
-  const onSubmit = (data: any) => {
-    let obj = { date: date, type: data.type, severity: data.severity };
-    dispatch(postData(obj));
-  };
 
   return (
     <View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            {/* <Controller
-              name="type"
-              rules={{}}
-              control={control}
-              render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => ( */}
-            <View style={styles.container}>
-              <Picker onBlur={() => {}} onValueChange={() => {}} selectedValue={selected}>
-                <Picker.Item label="Choose type" value="choose" />
-                <Picker.Item label="Had Flows" value="Had flows" />
-                <Picker.Item label="No flows" value="No flows" />
-                <Picker.Item label="Meds" value="Meds" />
-              </Picker>
-              {/* {error && <Text>{error.message || 'Error'}</Text>} */}
-            </View>
-            {/* )}
-            /> */}
-            {/* <Controller
-              name="severity"
-              rules={{}}
-              control={control}
-              render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => ( */}
-            <View style={styles.container}>
-              <Picker onBlur={() => {}} onValueChange={() => {}} selectedValue={selected}>
-                <Picker.Item label="Choose severity" value="chooseseverity" />
-                <Picker.Item label="Low" value="low" />
-                <Picker.Item label="Medium" value="medium" />
-                <Picker.Item label="High" value="high" />
-              </Picker>
-              {/* {error && <Text>{error.message || 'Error'}</Text>} */}
-            </View>
-            {/* )}
-            /> */}
-
-            <Button type="primary" title="Submit" onPress={handleSubmit(onSubmit)} />
-            <TouchableOpacity
-              style={[styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      <TouchableOpacity style={[styles.button]} onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>Show Modal</Text>
+      <TouchableOpacity style={[styles.button]} onPress={() => {}}>
+        <Text style={styles.dayNumberStyle}>5th</Text>
+        <Text style={styles.textStyle}>day of cycle</Text>
       </TouchableOpacity>
     </View>
   );
@@ -141,6 +74,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 24,
+  },
+  dayNumberStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18,
   },
   modalText: {
     marginBottom: 15,

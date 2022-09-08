@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button, Text, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { FC } from 'react';
 import CalendarStrip from '../CalendarStrip';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -7,10 +7,7 @@ import { IState, getData, postData } from '../../store/sliceData';
 import { IUsersState } from '../../store/sliceUser';
 import RoundButton from '../RoundButton';
 import { useNavigation } from '@react-navigation/native';
-import GoBackButton from 'components/GoBackButton';
 import TodaysLogs from 'components/TodaysLogs';
-import Menu from 'components/Menu';
-import Test from 'components/Test';
 type Props = {};
 
 const Home: FC<Props> = (props) => {
@@ -35,13 +32,8 @@ const Home: FC<Props> = (props) => {
         <CalendarStrip />
         <RoundButton date={date} />
         <TodaysLogs />
-        <Menu />
+        <Text>Your period is likely to start at 29th of September</Text>
       </View>
-      <View style={{ position: 'absolute', top: 100, left: 20 }}>
-        <GoBackButton type="flat" onPress={() => navigation.goBack()} />
-      </View>
-      <Test />
-      {/* @ts-ignore */}
     </View>
   );
 };
@@ -55,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: 'white',
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 50,
   },
   contentWrapper: {
     height: '100%',

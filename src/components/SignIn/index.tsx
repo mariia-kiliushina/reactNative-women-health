@@ -25,7 +25,7 @@ const SignIn: FC<Props> = (props) => {
     //@ts-ignore
     setTimeout(() => dispatch(authenticateUser(data)), 1000);
     //@ts-ignore
-    setTimeout(() => navigation.navigate('Home'), 2000);
+    setTimeout(() => navigation.navigate('Main'), 2000);
   };
   const onSignUp = () => {
     //@ts-ignore
