@@ -31,7 +31,7 @@ const Home: FC<Props> = (props) => {
       <View style={styles.contentWrapper}>
         <CalendarStrip />
         <RoundButton date={date} />
-        <TodaysLogs date={date} />
+        <TodaysLogs />
         <Text>Your period is likely to start at 29th of September</Text>
       </View>
     </View>

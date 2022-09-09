@@ -44,6 +44,10 @@ const TodaysLogs: FC<Props> = (props) => {
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
       state.dataSliceReducer.selectedCalendarDate
   );
+  // const userId = useAppSelector(
+  //   (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
+  //     state.dataSliceReducer.userId
+  // );
 
   const date =
     selectedCalendarDate === getFormatedDateFromGMTObject(new Date())
@@ -54,7 +58,7 @@ const TodaysLogs: FC<Props> = (props) => {
   const onSubmit = (data: any) => {
     let obj = { flows: data.flows, symptoms: data.symptoms, mood: data.mood };
     if (Object.values(obj).some((value) => value !== undefined)) {
-      dispatch(postData({ date: date, ...obj }));
+      dispatch(postData({ date: selectedCalendarDate, ...obj }));
       setModalVisible(!modalVisible);
     } else {
       setModalVisible(!modalVisible);

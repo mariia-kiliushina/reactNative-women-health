@@ -15,6 +15,7 @@ export type IState = {
   tracks: Record<number, Track>;
   users: any[];
   selectedCalendarDate: string;
+  userId: number | undefined;
 };
 export interface User {
   login: string;
@@ -28,6 +29,7 @@ const initialState: IState = {
   tracks: [],
   users: [],
   selectedCalendarDate: '',
+  userId: undefined,
 };
 
 // const URL_PREFIX = 'https://women-health-backend.herokuapp.com/api/';
@@ -117,6 +119,7 @@ const dataSlice = createSlice({
     //@ts-ignore
     [authenticateUser.fulfilled]: (state, action) => {
       state.accessToken = action.payload.accessToken;
+      state.userId = action.payload.userId;
     },
     //@ts-ignore
     [registerUser.fulfilled]: (state, action) => {
