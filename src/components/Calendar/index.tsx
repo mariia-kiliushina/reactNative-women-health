@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { FC } from 'react';
@@ -8,34 +9,38 @@ type Props = {
   periods: Track[];
   setDate: (day: string) => void;
 };
-type TperiodsObject = Record<string, { color: string; textColor: string }>;
-type TpsymptomsObject = Record<string, { marked: boolean; dotColor: string }>;
+// type TperiodsObject = Record<string, { color: string; textColor: string }>;
+// type TpsymptomsObject = Record<string, { marked: boolean; dotColor: string }>;
 
 const MyCalendar: FC<Props> = (props) => {
   const { periods, setDate } = props;
 
-  let periodsObject: TperiodsObject = {};
-  periods
-    .filter((element) => element.type === 'Had flows')
-    .forEach((element) => {
-      periodsObject[element.date] = { color: '#70d7c7', textColor: 'white' };
-    });
+  let markedDatesObject = {};
 
-  let symptomsObject: TpsymptomsObject = {};
-  periods
-    .filter((element) => element.type !== 'Had flows')
-    .forEach((element) => {
-      symptomsObject[element.date] = { marked: true, dotColor: '#70d7c7' };
-    });
+  periods.forEach((element) => {
+    if (element.flows !== 'no-flow' && element.symptoms) {
+      markedDatesObject[element.date] = {
+        color: 'black',
+        textColor: 'white',
+        marked: true,
+        dotColor: '#70d7c7',
+      };
+      return;
+    }
+    if (element.flows !== 'no-flow') {
+      markedDatesObject[element.date] = { color: 'black', textColor: 'white' };
+      return;
+    }
+    if (element.symptoms) {
+      markedDatesObject[element.date] = { marked: true, dotColor: '#70d7c7' };
+    }
+  });
 
   return (
     <View style={styles.container}>
       <Calendar
         markingType={'period'}
-        markedDates={{
-          ...periodsObject,
-          ...symptomsObject,
-        }}
+        markedDates={{ ...markedDatesObject }}
         initialDate={'2022-08-01'}
         minDate={'2022-08-01'}
         maxDate={'2032-08-01'}

@@ -119,7 +119,6 @@ const dataSlice = createSlice({
     //@ts-ignore
     [authenticateUser.fulfilled]: (state, action) => {
       state.accessToken = action.payload.accessToken;
-      state.userId = action.payload.userId;
     },
     //@ts-ignore
     [registerUser.fulfilled]: (state, action) => {

@@ -15,6 +15,7 @@ const Home: FC<Props> = (props) => {
   const {} = styles;
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getData());
   }, []);
