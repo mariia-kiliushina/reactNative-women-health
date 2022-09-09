@@ -1,38 +1,61 @@
-//@ts-nocheck
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { FC } from 'react';
 import { Calendar } from 'react-native-calendars';
 import { Track } from '../../store/sliceData';
+import COLORS from '../../colors';
 
 type Props = {
   periods: Track[];
   setDate: (day: string) => void;
 };
-// type TperiodsObject = Record<string, { color: string; textColor: string }>;
-// type TpsymptomsObject = Record<string, { marked: boolean; dotColor: string }>;
+type TMarkedObject = Record<string, {}>;
 
 const MyCalendar: FC<Props> = (props) => {
   const { periods, setDate } = props;
 
-  let markedDatesObject = {};
+  let markedDatesObject: TMarkedObject = {};
+
+  let filteredPeriodsDays = periods.filter((element) => element.flows !== 'no-flow');
+  filteredPeriodsDays.sort((a, b) => {
+    let aDate = new Date(a.date);
+    let bDate = new Date(b.date);
+    if (aDate > bDate) {
+      return 1;
+    }
+    if (aDate < bDate) {
+      return -1;
+    }
+    return 0;
+  });
 
   periods.forEach((element) => {
+    const isFirst = filteredPeriodsDays[0].date === element.date;
+
+    const isLast = filteredPeriodsDays[filteredPeriodsDays.length - 1].date === element.date;
+
     if (element.flows !== 'no-flow' && element.symptoms) {
       markedDatesObject[element.date] = {
-        color: 'black',
+        color: '#70d7c7',
         textColor: 'white',
         marked: true,
-        dotColor: '#70d7c7',
+        dotColor: 'white',
+        startingDay: isFirst,
+        endingDay: isLast,
       };
       return;
     }
     if (element.flows !== 'no-flow') {
-      markedDatesObject[element.date] = { color: 'black', textColor: 'white' };
+      markedDatesObject[element.date] = {
+        color: '#50cebb',
+        textColor: 'white',
+        startingDay: isFirst,
+        endingDay: isLast,
+      };
       return;
     }
     if (element.symptoms) {
-      markedDatesObject[element.date] = { marked: true, dotColor: '#70d7c7' };
+      markedDatesObject[element.date] = { marked: true, dotColor: '#50cebb' };
     }
   });
 
@@ -56,6 +79,32 @@ const MyCalendar: FC<Props> = (props) => {
         firstDay={1}
         hideDayNames={true}
         enableSwipeMonths={true}
+        // theme={{
+        //   backgroundColor: '#ffffff',
+        //   calendarBackground: '#ffffff',
+        //   textSectionTitleColor: '#b6c1cd',
+        //   textSectionTitleDisabledColor: '#d9e1e8',
+        //   selectedDayBackgroundColor: '#00adf5',
+        //   selectedDayTextColor: '#ffffff',
+        //   todayTextColor: '#00adf5',
+        //   dayTextColor: '#2d4150',
+        //   textDisabledColor: '#d9e1e8',
+        //   dotColor: '#00adf5',
+        //   selectedDotColor: '#ffffff',
+        //   arrowColor: 'orange',
+        //   disabledArrowColor: '#d9e1e8',
+        //   monthTextColor: 'blue',
+        //   indicatorColor: 'blue',
+        //   textDayFontFamily: 'monospace',
+        //   textMonthFontFamily: 'monospace',
+        //   textDayHeaderFontFamily: 'monospace',
+        //   textDayFontWeight: '300',
+        //   textMonthFontWeight: 'bold',
+        //   textDayHeaderFontWeight: '300',
+        //   textDayFontSize: 16,
+        //   textMonthFontSize: 16,
+        //   textDayHeaderFontSize: 16
+        // }}
       />
     </View>
   );

@@ -12,9 +12,6 @@ const Settings: FC<Props> = (props) => {
   const {} = props;
   const {} = styles;
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getData());
-  }, []);
 
   const { ...tracks } = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>

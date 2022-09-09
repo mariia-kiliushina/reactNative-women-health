@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getFormatedDateFromGMTObject } from '../helpers';
 
 export interface Track {
   id?: number;
@@ -28,7 +29,7 @@ const initialState: IState = {
   error: '',
   tracks: [],
   users: [],
-  selectedCalendarDate: '',
+  selectedCalendarDate: getFormatedDateFromGMTObject(new Date()),
   userId: undefined,
 };
 

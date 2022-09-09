@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Modal, View, Text, Image, TouchableOpacity, Pressable } from 'react-native';
 import { FC } from 'react';
 import Button from '../Button';
@@ -28,26 +28,29 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IState, setSelectedCalendarDate } from '../../store/sliceData';
 import { useAppSelector } from 'hooks';
 import { IUsersState } from 'store/sliceUser';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 type Props = {};
 
 const TodaysLogs: FC<Props> = (props) => {
+  const dispatch = useAppDispatch();
+
+  const { ...tracks } = useAppSelector(
+    (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
+      state.dataSliceReducer.tracks
+  );
+  const periods = Object.values(tracks);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const dispatch = useAppDispatch();
-
   const selectedCalendarDate = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
       state.dataSliceReducer.selectedCalendarDate
   );
-  // const userId = useAppSelector(
-  //   (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
-  //     state.dataSliceReducer.userId
-  // );
 
   const date =
     selectedCalendarDate === getFormatedDateFromGMTObject(new Date())
@@ -55,6 +58,7 @@ const TodaysLogs: FC<Props> = (props) => {
       : selectedCalendarDate;
 
   const [modalVisible, setModalVisible] = useState(false);
+
   const onSubmit = (data: any) => {
     let obj = { flows: data.flows, symptoms: data.symptoms, mood: data.mood };
     if (Object.values(obj).some((value) => value !== undefined)) {
@@ -66,28 +70,55 @@ const TodaysLogs: FC<Props> = (props) => {
   };
 
   const optionsFlows = [
-    { source: light, symptomText: 'No Flows', optionValue: 'no-flow' },
+    { source: light, symptomText: 'No Flow', optionValue: 'no-flow' },
     { source: light, symptomText: 'Light', optionValue: 'light' },
     { source: normal, symptomText: 'Normal', optionValue: 'normal' },
     { source: heavy, symptomText: 'Heavy', optionValue: 'heavy' },
   ];
 
-  const optionsSymptoms = [
-    { source: headache, symptomText: 'headache', optionValue: 'headache' },
-    { source: acne, symptomText: 'acne', optionValue: 'acne' },
-    { source: spotting, symptomText: 'spotting', optionValue: 'spotting' },
-    { source: painfulSex, symptomText: 'painfulSex', optionValue: 'painfulSex' },
-    { source: hairLoss, symptomText: 'hairLoss', optionValue: 'hairLoss' },
-    { source: crumps, symptomText: 'crumps', optionValue: 'crumps' },
-    { source: discharges, symptomText: 'discharges', optionValue: 'discharges' },
-    { source: breastTenderness, symptomText: 'breastTenderness', optionValue: 'breastTenderness' },
-    { source: moodSwings, symptomText: 'moodSwings', optionValue: 'moodSwings' },
-  ];
+  const optionsSymptoms = {
+    headache: { source: headache, symptomText: 'Headache', optionValue: 'headache' },
+    acne: { source: acne, symptomText: 'Acne', optionValue: 'acne' },
+    spotting: { source: spotting, symptomText: 'Spotting', optionValue: 'spotting' },
+    painfulSex: { source: painfulSex, symptomText: 'Painful sex', optionValue: 'painfulSex' },
+    hairLoss: { source: hairLoss, symptomText: 'Hair loss', optionValue: 'hairLoss' },
+    crumps: { source: crumps, symptomText: 'Crumps', optionValue: 'crumps' },
+    discharges: { source: discharges, symptomText: 'Discharges', optionValue: 'discharges' },
+    breastTenderness: {
+      source: breastTenderness,
+      symptomText: 'BreastT tenderness',
+      optionValue: 'breastTenderness',
+    },
+    moodSwings: { source: moodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
+  };
+
+  const optionsSymptomsArray = Object.values(optionsSymptoms);
+
   const optionsMood = [
     { source: light, symptomText: 'Good', optionValue: 'good' },
     { source: normal, symptomText: 'Sad', optionValue: 'sad' },
     { source: heavy, symptomText: 'Frisky', optionValue: 'frisky' },
   ];
+
+  const getTodaysInfo = () => {
+    let todaysInfo: any[] = [];
+    if (!periods) return;
+    periods.forEach((period) => {
+      if (!period.symptoms) return;
+
+      if (period.date === selectedCalendarDate) {
+        todaysInfo.push({
+          //@ts-ignore
+          source: optionsSymptoms[period.symptoms].source,
+          //@ts-ignore
+          symptomText: optionsSymptoms[period.symptoms].symptomText,
+        });
+      }
+    });
+    return todaysInfo;
+  };
+
+  let todaysInfo = getTodaysInfo();
 
   return (
     <View style={[styles.container, styles.shadowProp]}>
@@ -159,7 +190,7 @@ const TodaysLogs: FC<Props> = (props) => {
                 <Text style={styles.todayText}>Symptoms</Text>
               </View>
               <View style={styles.rowFlexWrapper}>
-                {optionsSymptoms.map(({ source, symptomText, optionValue }) => (
+                {optionsSymptomsArray.map(({ source, symptomText, optionValue }) => (
                   <Controller
                     key={optionValue}
                     name="symptoms"
@@ -200,9 +231,15 @@ const TodaysLogs: FC<Props> = (props) => {
           />
         </View>
         <View style={styles.rowFlexWrapper}>
-          <SymptomIcon source={headache} symptomText="" marked={true} />
-          <SymptomIcon source={spotting} symptomText="" marked={true} />
-          <SymptomIcon source={crumps} symptomText="" marked={true} />
+          {/* @ts-ignore */}
+          {todaysInfo.map(({ source, symptomText }) => (
+            <SymptomIcon
+              key={symptomText}
+              source={source}
+              symptomText={symptomText}
+              marked={true}
+            />
+          ))}
         </View>
       </TouchableOpacity>
     </View>

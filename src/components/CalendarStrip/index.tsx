@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FC } from 'react';
 import CalendarStrip from 'react-native-calendar-strip';
@@ -16,20 +16,18 @@ const MyCalendarStrip: FC<Props> = (props) => {
     const selectedDateStringFormatted = getFormatedDateFromGMTObject(date._d);
     dispatch(setSelectedCalendarDate(selectedDateStringFormatted));
   };
-
-  // const selectedCalendarDate = useAppSelector(
-  //   (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
-  //     state.dataSliceReducer.selectedCalendarDate
-  // );
+  const [selectedDate, set] = useState(new Date());
 
   return (
     <View style={styles.container}>
       <CalendarStrip
+        updateWeek={true}
+        scrollToOnSetSelectedDate={true}
         scrollable={true}
-        calendarAnimation={{ type: 'sequence', duration: 30 }}
+        calendarAnimation={{ type: 'parallel', duration: 30 }}
         daySelectionAnimation={{
           type: 'background',
-          duration: 200,
+          duration: 100,
           highlightColor: COLORS.colorSecondaryDark,
         }}
         style={{
@@ -50,7 +48,7 @@ const MyCalendarStrip: FC<Props> = (props) => {
         }}
         iconContainer={{ flex: 0.1 }}
         iconStyle={{ flex: 0 }}
-        selectedDate={new Date()}
+        selectedDate={selectedDate}
         dayContainerStyle={{
           width: 50,
           marginHorizontal: 5,
