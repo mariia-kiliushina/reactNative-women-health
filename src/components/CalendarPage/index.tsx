@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { FC } from 'react';
 import Calendar from '../Calendar';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { IState, getData, postData } from '../../store/sliceData';
-import { IUsersState } from '../../store/sliceUser';
-import RoundButton from '../RoundButton';
-import Button from '../Button';
-import { useNavigation } from '@react-navigation/native';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { IState, getData, postData } from 'src/store/sliceData';
+import { IUsersState } from 'src/store/sliceUser';
+import RoundButton from 'components/RoundButton';
 import GoBackButton from 'components/GoBackButton';
 
 type Props = {};

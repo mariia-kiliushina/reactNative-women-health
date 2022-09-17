@@ -21,13 +21,13 @@ import normal from '../../assets/normal.png';
 import heavy from '../../assets/heavy.png';
 import SymptomIcon from '../SymptomIcon';
 import { useForm } from 'react-hook-form';
-import { useAppDispatch } from 'hooks';
-import { postData } from 'store/sliceData';
+import { useAppDispatch } from 'src/hooks';
+import { patchDataById, postData } from 'src/store/sliceData';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IState, setSelectedCalendarDate } from '../../store/sliceData';
-import { useAppSelector } from 'hooks';
-import { IUsersState } from 'store/sliceUser';
+import { useAppSelector } from 'src/hooks';
+import { IUsersState } from 'src/store/sliceUser';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 type Props = {};
@@ -40,6 +40,9 @@ const TodaysLogs: FC<Props> = (props) => {
       state.dataSliceReducer.tracks
   );
   const periods = Object.values(tracks);
+
+  console.log('periods');
+  console.log(periods);
 
   const {
     control,
@@ -60,13 +63,28 @@ const TodaysLogs: FC<Props> = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const onSubmit = (data: any) => {
-    let obj = { flows: data.flows, symptoms: data.symptoms, mood: data.mood };
+    let symptomsArray = Object.values(data.symptoms);
+
+    let obj = { flows: data.flows, symptoms: symptomsArray, mood: data.mood };
+
     if (Object.values(obj).some((value) => value !== undefined)) {
-      dispatch(postData({ date: selectedCalendarDate, ...obj }));
-      setModalVisible(!modalVisible);
-    } else {
-      setModalVisible(!modalVisible);
+      const periodWithSelectedDate = periods.filter(
+        (period) => period.date === selectedCalendarDate
+      );
+      const doesPeriodWithSelectedDateExist = periodWithSelectedDate.length === 0 ? false : true;
+
+      if (!doesPeriodWithSelectedDateExist) {
+        dispatch(postData({ date: selectedCalendarDate, ...obj }));
+      }
+
+      if (doesPeriodWithSelectedDateExist) {
+        const periodId = periodWithSelectedDate[0].id;
+        dispatch(
+          patchDataById({ updatedPeriodInfo: { date: selectedCalendarDate, ...obj }, periodId })
+        );
+      }
     }
+    setModalVisible(!modalVisible);
   };
 
   const optionsFlows = [
@@ -84,12 +102,12 @@ const TodaysLogs: FC<Props> = (props) => {
     hairLoss: { source: hairLoss, symptomText: 'Hair loss', optionValue: 'hairLoss' },
     crumps: { source: crumps, symptomText: 'Crumps', optionValue: 'crumps' },
     discharges: { source: discharges, symptomText: 'Discharges', optionValue: 'discharges' },
+    moodSwings: { source: moodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
     breastTenderness: {
       source: breastTenderness,
       symptomText: 'BreastT tenderness',
       optionValue: 'breastTenderness',
     },
-    moodSwings: { source: moodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
   };
 
   const optionsSymptomsArray = Object.values(optionsSymptoms);
@@ -103,9 +121,9 @@ const TodaysLogs: FC<Props> = (props) => {
   const getTodaysInfo = () => {
     let todaysInfo: any[] = [];
     if (!periods) return;
-    periods.forEach((period) => {
-      if (!period.symptoms) return;
-
+    periods.forEach((period: any) => {
+      if (!period) return;
+      // dispatch(getAllSymtomsByPeriodId());
       if (period.date === selectedCalendarDate) {
         todaysInfo.push({
           //@ts-ignore
@@ -118,7 +136,11 @@ const TodaysLogs: FC<Props> = (props) => {
     return todaysInfo;
   };
 
-  let todaysInfo = getTodaysInfo();
+  let todaysInfo: any[] | undefined = [];
+
+  useEffect(() => {
+    (todaysInfo = getTodaysInfo()), periods;
+  });
 
   return (
     <View style={[styles.container, styles.shadowProp]}>
@@ -190,26 +212,27 @@ const TodaysLogs: FC<Props> = (props) => {
                 <Text style={styles.todayText}>Symptoms</Text>
               </View>
               <View style={styles.rowFlexWrapper}>
-                {optionsSymptomsArray.map(({ source, symptomText, optionValue }) => (
-                  <Controller
-                    key={optionValue}
-                    name="symptoms"
-                    rules={{}}
-                    control={control}
-                    render={({ field }) => (
-                      <View style={styles.rowFlexWrapper}>
+                <Controller
+                  name={'symptoms'}
+                  rules={{}}
+                  control={control}
+                  render={({ field }) => (
+                    <View style={styles.rowFlexWrapper}>
+                      {optionsSymptomsArray.map(({ source, symptomText, optionValue }) => (
                         <SymptomIcon
+                          key={optionValue}
                           source={source}
                           symptomText={symptomText}
                           marked={false}
                           value={field.value}
-                          onChange={field.onChange}
-                          optionValue={optionValue}
+                          onChange={(event) =>
+                            field.onChange({ ...field.value, [optionValue]: optionValue })
+                          }
                         />
-                      </View>
-                    )}
-                  />
-                ))}
+                      ))}
+                    </View>
+                  )}
+                />
               </View>
             </View>
 
@@ -231,15 +254,15 @@ const TodaysLogs: FC<Props> = (props) => {
           />
         </View>
         <View style={styles.rowFlexWrapper}>
-          {/* @ts-ignore */}
-          {todaysInfo.map(({ source, symptomText }) => (
-            <SymptomIcon
-              key={symptomText}
-              source={source}
-              symptomText={symptomText}
-              marked={true}
-            />
-          ))}
+          {todaysInfo &&
+            todaysInfo.map(({ source, symptomText }) => (
+              <SymptomIcon
+                key={symptomText}
+                source={source}
+                symptomText={symptomText}
+                marked={true}
+              />
+            ))}
         </View>
       </TouchableOpacity>
     </View>

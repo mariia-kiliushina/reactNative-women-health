@@ -4,9 +4,14 @@ import { getFormatedDateFromGMTObject } from '../helpers';
 export interface Track {
   id?: number;
   date: string;
-  flows: any;
+  flows: 'no-flow' | 'light' | 'normal' | 'heavy';
   symptoms: any;
-  mood: any;
+  mood: 'good' | 'sad' | 'frisky';
+}
+
+export interface updatedDataT {
+  periodId: number;
+  updatedPeriodInfo: {};
 }
 
 export type IState = {
@@ -103,6 +108,24 @@ export const postData = createAsyncThunk('postData', async (newTrack: Track, thu
   const responseJSON = await response.json();
   return responseJSON;
 });
+
+export const patchDataById = createAsyncThunk(
+  'patchDataById',
+  async (updatedData: updatedDataT, thunkAPI) => {
+    const state: any = thunkAPI.getState();
+    const token = state.dataSliceReducer.accessToken;
+    const response = await fetch(URL_PREFIX + `periods/${updatedData.periodId}`, {
+      body: JSON.stringify(updatedData.updatedPeriodInfo),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'PUT',
+    });
+    const responseJSON = await response.json();
+    return responseJSON;
+  }
+);
 
 const dataSlice = createSlice({
   name: 'period-data',

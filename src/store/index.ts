@@ -8,7 +8,7 @@ const store = configureStore({
     dataSliceReducer,
     userSliceReducer,
   },
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([logger]),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([logger]),
 });
 
 export type Store = {
