@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignIn from './components/SignIn';
-import Welcome from './components/Welcome';
-import SignUp from './components/SignUp';
-import Main from './components/Main';
-import ForgotPassword from './components/ForgotPassword';
-import store from './store';
+import SignIn from 'screens/SignIn';
+import Welcome from 'screens/Welcome';
+import SignUp from 'screens/SignUp';
+import Main from 'screens/Main';
+import ForgotPassword from 'screens/ForgotPassword';
+import store from 'src/store';
 import { Provider } from 'react-redux';
 import 'moment';
 import 'moment/locale/en-gb';

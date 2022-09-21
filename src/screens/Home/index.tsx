@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { FC } from 'react';
-import CalendarStrip from '../CalendarStrip';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { IState, getData, postData } from '../../store/sliceData';
-import { IUsersState } from '../../store/sliceUser';
-import RoundButton from '../RoundButton';
-import { useNavigation } from '@react-navigation/native';
+import CalendarStrip from 'src/components/CalendarStrip';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { IState, getData, postData } from 'src/store/sliceData';
+import { IUsersState } from 'src/store/sliceUser';
+import RoundButton from 'components/RoundButton';
 import TodaysLogs from 'components/TodaysLogs';
 type Props = {};
 

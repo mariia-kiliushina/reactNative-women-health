@@ -8,7 +8,7 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import { FC } from 'react';
-import COLORS from '../../colors';
+import COLORS from 'src/constants/colors';
 type Props = {
   marked?: boolean;
   source: ImageSourcePropType;

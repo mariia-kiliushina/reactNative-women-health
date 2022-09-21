@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Button, Text, TouchableOpacity, FlatList } from 'react-native';
 import { FC } from 'react';
 import Calendar from '../Calendar';
-import { getData, IState } from 'store/sliceData';
-import { useAppDispatch, useAppSelector } from 'hooks';
-import { IUsersState } from 'store/sliceUser';
+import { getData, IState } from 'src/store/sliceData';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { IUsersState } from 'src/store/sliceUser';
 
 type Props = {};
 

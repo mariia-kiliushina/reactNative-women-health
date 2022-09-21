@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { FC } from 'react';
-import COLORS from '../../colors';
-import arrow_primary from '../../assets/arrow-primary.png';
+import COLORS from 'src/constants/colors';
+import arrow_primary from 'src/assets/arrow-primary.png';
 
 type Props = {
   type?: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';

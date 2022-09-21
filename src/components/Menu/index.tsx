@@ -1,11 +1,7 @@
-//@ts-nocheck
 import React, { SyntheticEvent, useState } from 'react';
 import { FC } from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TodaysLogs from '../TodaysLogs';
-import SignUp from '../SignUp';
 type Props = {};
 
 function HomeScreen({ navigation }) {

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, useWindowDimensions } from 'react-native';
 import { FC } from 'react';
 import Button from 'components/Button';
-import COLORS from '../../colors';
+import COLORS from 'src/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import ControlledInput from '../ControlledInput';
-import { authenticateUser, clearAll } from '../../store/sliceData';
+import ControlledInput from 'components/ControlledInput';
+import { authenticateUser, clearAll } from 'src/store/sliceData';
 import { useDispatch } from 'react-redux';
 import GoBackButton from 'components/GoBackButton';
 

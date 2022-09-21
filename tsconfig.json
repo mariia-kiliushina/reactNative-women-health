@@ -14,9 +14,10 @@
     "paths": {
       "tests": ["tests/*"],
       "src/*": ["src/*"],
-      "components/*": ["src/components/*"]
+      "components/*": ["src/components/*"],
+      "assets/*": ["src/assets/*"],
+      "screens/*": ["src/screens/*"]
     }
-    // "noUnusedLocals": true
   },
   "include": ["src"],
   "extends": "expo/tsconfig.base"

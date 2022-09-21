@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button, Text, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { FC } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Home from '../Home';
-import CalendarView from '../CalendarView';
-import Settings from '../Settings';
+import Home from 'screens/Home';
+import CalendarView from 'components/CalendarView';
+import Settings from 'screens/Settings';
 
 type Props = {};
 

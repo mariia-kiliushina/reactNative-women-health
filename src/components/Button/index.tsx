@@ -1,6 +1,6 @@
 import { StyleSheet, ImageSourcePropType, Pressable, Text, Image, View } from 'react-native';
 import React, { FC } from 'react';
-import COLORS from 'src/colors';
+import COLORS from 'src/constants/colors';
 
 type Props = {
   type?: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';

@@ -3,11 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { FC } from 'react';
 import CalendarStrip from 'react-native-calendar-strip';
 import { getFormatedDateFromGMTObject } from 'src/helpers';
-import COLORS from 'src/colors';
+import COLORS from 'src/constants/colors';
 import { useDispatch } from 'react-redux';
-import { IState, setSelectedCalendarDate } from 'src/store/sliceData';
-import { useAppSelector } from 'src/hooks';
-import { IUsersState } from 'src/store/sliceUser';
+import { setSelectedCalendarDate } from 'src/store/sliceData';
 type Props = {};
 
 const MyCalendarStrip: FC<Props> = (props) => {

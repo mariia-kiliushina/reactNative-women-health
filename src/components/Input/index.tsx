@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { FC } from 'react';
-import COLORS from '../../colors';
+import COLORS from 'src/constants/colors';
 
 export type Ttype = 'password' | 'e-mail' | 'default';
 type Props = {
@@ -35,7 +35,6 @@ const MyInput: FC<Props> = (props) => {
   };
 
   return (
-    // const [text, onChangeText] = React.useState('');
     <View style={[styles.bordered, style]}>
       <TextInput
         autoCapitalize="none"

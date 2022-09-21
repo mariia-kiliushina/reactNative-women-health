@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView, useWindowDimensions } from 'react-native';
 import { FC } from 'react';
 import Button from 'components/Button';
-import COLORS from '../../colors';
+import COLORS from 'src/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import ControlledInput from '../ControlledInput';
-import girlWithFlowers from '../../assets/girl-flowers.jpeg';
-import { registerUser } from '../../store/sliceData';
+import ControlledInput from 'components/ControlledInput';
+import girlWithFlowers from 'assets/girl-flowers.jpeg';
+import { registerUser } from 'src/store/sliceData';
 import { useDispatch } from 'react-redux';
 import GoBackButton from 'components/GoBackButton';
 

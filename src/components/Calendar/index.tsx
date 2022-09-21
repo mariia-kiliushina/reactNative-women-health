@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FC } from 'react';
 import { Calendar } from 'react-native-calendars';
 import { Track } from 'src/store/sliceData';
-import COLORS from 'src/colors';
 
 type Props = {
   periods: Track[];

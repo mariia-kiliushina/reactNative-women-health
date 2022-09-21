@@ -1,10 +1,9 @@
-import React from 'react';
 import { FC } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from 'src/hooks';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import COLORS from '../../colors';
-import { IState } from 'store/sliceData';
-import { IUsersState } from 'store/sliceUser';
+import COLORS from 'src/constants/colors';
+import { IState } from 'src/store/sliceData';
+import { IUsersState } from 'src/store/sliceUser';
 
 type Props = {
   date: string;

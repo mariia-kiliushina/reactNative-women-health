@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, useWindowDimensions } from 'react-native';
+import { StyleSheet, View, Text, Image, useWindowDimensions } from 'react-native';
 import { FC } from 'react';
 import Button from 'components/Button';
-import COLORS from '../../colors';
+import COLORS from 'src/constants/colors';
 import { useNavigation } from '@react-navigation/native';
-import girlWithFlowers from '../../assets/girl-flowers-removebg.png';
+import girlWithFlowers from 'assets/girl-flowers-removebg.png';
 type Props = {};
 
 const Welcome: FC<Props> = (props) => {

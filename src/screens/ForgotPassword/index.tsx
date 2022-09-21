@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { FC } from 'react';
 import Button from 'components/Button';
-import COLORS from '../../colors';
+import COLORS from 'src/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import ControlledInput from '../ControlledInput';
-import GoBackButton from '../GoBackButton';
+import ControlledInput from 'components/ControlledInput';
+import GoBackButton from 'components/GoBackButton';
 type Props = {};
 
 const ForgotPassword: FC<Props> = (props) => {
