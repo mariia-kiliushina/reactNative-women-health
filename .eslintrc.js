@@ -28,13 +28,7 @@ module.exports = {
     'arrow-parens': 1,
     camelcase: 1,
     'no-duplicate-imports': 1,
-    'no-restricted-syntax': [
-      1,
-      {
-        selector: 'ExportDefaultDeclaration',
-        message: 'Prefer named exports.',
-      },
-    ],
+    'no-restricted-syntax': [],
     'no-tabs': 1,
     '@typescript-eslint/no-extra-semi': 'off',
     '@typescript-eslint/no-namespace': 'off',
