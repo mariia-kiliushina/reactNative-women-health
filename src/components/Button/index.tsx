@@ -1,10 +1,10 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
-import { FC } from 'react';
-import COLORS from '../../colors';
+import { StyleSheet, ImageSourcePropType, Pressable, Text, Image, View } from 'react-native';
+import React, { FC } from 'react';
+import COLORS from 'src/colors';
+
 type Props = {
   type?: 'primary' | 'secondary' | 'disabled' | 'danger' | 'outlined' | 'flat';
-  size?: 'small' | 'medium' | 'large';
+  size?: keyof typeof textStyles;
   title?: string;
   onPress: () => void;
   style?: any;
@@ -15,7 +15,6 @@ type Props = {
 const MyButton: FC<Props> = (props) => {
   const { style, imageStyle, title, imageSrc, onPress, type = 'primary', size = 'medium' } = props;
   const { defaultButton, primary, secondary, disabled, danger, outlined, flat } = buttonStyles;
-  const { small, medium, large, whiteText, blueText, disabledText } = textStyles;
   const customTypeStyle = (type: string) => {
     switch (type) {
       case 'primary':
@@ -40,41 +39,23 @@ const MyButton: FC<Props> = (props) => {
         return primary;
     }
   };
-  const customSizeStyle = (size: string) => {
-    switch (size) {
-      case 'small':
-        return small;
-        break;
-      case 'medium':
-        return medium;
-        break;
-      case 'large':
-        return large;
-        break;
-      default:
-        return primary;
-    }
-  };
-  const customTextColorStyle = (type: string) => {
-    const whiteColorList = ['primary', 'secondary', 'danger'];
-    if (whiteColorList.includes(type)) return whiteText;
-    if (type === 'disabled') return disabledText;
-    return blueText;
-  };
+
+  // const customTextColorStyle = (type: string) => {
+  //   const whiteColorList = ['primary', 'secondary', 'danger'];
+  //   if (whiteColorList.includes(type)) return whiteText;
+  //   if (type === 'disabled') return disabledText;
+  //   return blueText;
+  // };
   const combinedViewStyles = StyleSheet.flatten([defaultButton, customTypeStyle(type)]);
-  const combinedTextStyles = StyleSheet.flatten([
-    customTextColorStyle(type),
-    customSizeStyle(size),
-  ]);
 
   return (
     <View style={[viewStyles.container, style]}>
-      <TouchableOpacity onPress={onPress}>
+      <Pressable onPress={onPress}>
         <View style={[combinedViewStyles, style]}>
-          {title && <Text style={combinedTextStyles}>{title}</Text>}
+          {title && <Text style={{}}>{title}</Text>}
           {imageSrc && <Image source={imageSrc} style={imageStyle} />}
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
@@ -120,26 +101,26 @@ const buttonStyles = StyleSheet.create({
 });
 
 const textStyles = StyleSheet.create({
-  whiteText: {
-    color: 'white',
-  },
-  blueText: {
-    color: COLORS.colorPrimary,
-  },
-  disabledText: {
-    color: COLORS.colorGreyscaleSecondaryGrey,
-  },
-  small: {
+  // whiteText: {
+  //   color: 'white',
+  // },
+  // blueText: {
+  //   color: COLORS.colorPrimary,
+  // },
+  // disabledText: {
+  //   color: COLORS.colorGreyscaleSecondaryGrey,
+  // },
+  14: {
     fontSize: 14,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
-  medium: {
+  18: {
     fontSize: 18,
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
-  large: {
+  22: {
     fontSize: 22,
     paddingHorizontal: 24,
     paddingVertical: 20,

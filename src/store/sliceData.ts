@@ -11,7 +11,7 @@ export interface Track {
 
 export interface updatedDataT {
   periodId: number;
-  updatedPeriodInfo: {};
+  updatedPeriodInfo: Record<string, never>;
 }
 
 export type IState = {
