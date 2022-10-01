@@ -13,6 +13,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
   return (
     <Provider store={store}>
       <SafeAreaProvider>

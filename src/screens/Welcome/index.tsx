@@ -4,7 +4,13 @@ import Button from 'components/Button';
 import COLORS from 'src/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import girlWithFlowers from 'assets/girl-flowers-removebg.png';
+
+import React, { useCallback, useEffect, useState } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+
 type Props = {};
+
+SplashScreen.preventAutoHideAsync();
 
 const Welcome: FC<Props> = (props) => {
   const { height, width } = useWindowDimensions();
@@ -22,14 +28,39 @@ const Welcome: FC<Props> = (props) => {
     //@ts-ignore
     navigation.navigate('Forgot Password');
   };
+
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      {/* <View style={styles.imageContainer}> */}
+    <View style={styles.container} onLayout={onLayoutRootView}>
       <Image
         source={girlWithFlowers}
         style={[styles.image, { height: height * 0.5, width: width }]}
       />
-      {/* </View> */}
       <Text style={styles.welcomeText}>Welcome to Femme</Text>
       <View style={styles.buttonsContainer}>
         <Button type="primary" title="Sign In" onPress={onSignIn} />

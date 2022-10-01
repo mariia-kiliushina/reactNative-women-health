@@ -19,6 +19,7 @@
       "screens/*": ["src/screens/*"]
     }
   },
-  "include": ["src"],
-  "extends": "expo/tsconfig.base"
+  "files": ["./declarations.d.ts"],
+  "extends": "expo/tsconfig.base",
+  "include": ["src"]
 }

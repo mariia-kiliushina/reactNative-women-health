@@ -17,7 +17,7 @@ import hairLoss from 'assets/hair-loss.png';
 import light from 'assets/light.png';
 import normal from 'assets/normal.png';
 import heavy from 'assets/heavy.png';
-import SymptomIcon from '../SymptomIcon';
+import SymptomIcon from 'components/SymptomIcon';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from 'src/hooks';
 import { patchDataById, postData } from 'src/store/sliceData';
