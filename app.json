@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "reactNative-women-health",
-    "slug": "reactNative-women-health",
+    "name": "women-health",
+    "owner": "markil",
+    "slug": "femme",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,18 +10,20 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.femme.myapp",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.femme.myapp",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f26cb450-ad4e-4309-825a-7820a2c67c2d"
+      }
     }
   }
 }

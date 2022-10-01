@@ -1,6 +1,5 @@
-module.exports = {
-  /* existing config */
-  resolver: {
-    resolverMainFields: ['sbmodern', 'react-native', 'browser', 'main'],
-  },
-};
+const { getDefaultConfig } = require('expo/metro-config');
+
+const config = getDefaultConfig(__dirname);
+
+module.exports = config;
