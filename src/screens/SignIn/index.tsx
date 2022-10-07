@@ -6,7 +6,7 @@ import COLORS from 'src/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from 'components/ControlledInput';
-import { authenticateUser, clearAll } from 'src/store/sliceData';
+import { authenticateUser, clearAll } from 'src/store/sliceUser';
 import { useDispatch } from 'react-redux';
 import GoBackButton from 'components/GoBackButton';
 
