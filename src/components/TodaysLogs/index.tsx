@@ -4,7 +4,18 @@ import { FC } from 'react';
 import Button from 'components/Button';
 import COLORS from 'src/constants/colors';
 import { getFormatedDateFromGMTObject } from 'src/helpers';
-import { Crumps, Acne, HairLoss, Spotting } from 'src/assets/symptoms';
+import {
+  Crumps,
+  Acne,
+  HairLoss,
+  Spotting,
+  Discharges,
+  PainfulSex,
+  // Headache,
+  MoodSwings,
+  BreastTenderness,
+  Constipation,
+} from 'src/assets/symptoms';
 import { Heavy, Light, Normal } from 'src/assets/flows';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from 'src/hooks';
@@ -94,19 +105,24 @@ const TodaysLogs: FC<Props> = (props) => {
   ];
 
   const optionsSymptoms = {
-    // headache: { source: headache, symptomText: 'Headache', optionValue: 'headache' },
+    // headache: { source: Headache, symptomText: 'Headache', optionValue: 'headache' },
+    constipation: {
+      source: Constipation,
+      symptomText: 'Constipation',
+      optionValue: 'constipation',
+    },
     acne: { source: Acne, symptomText: 'Acne', optionValue: 'acne' },
     spotting: { source: Spotting, symptomText: 'Spotting', optionValue: 'spotting' },
-    // painfulSex: { source: painfulSex, symptomText: 'Painful sex', optionValue: 'painfulSex' },
+    painfulSex: { source: PainfulSex, symptomText: 'Painful sex', optionValue: 'painfulSex' },
     hairLoss: { source: HairLoss, symptomText: 'Hair loss', optionValue: 'hairLoss' },
     crumps: { source: Crumps, symptomText: 'Crumps', optionValue: 'crumps' },
-    // discharges: { source: discharges, symptomText: 'Discharges', optionValue: 'discharges' },
-    // moodSwings: { source: moodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
-    // breastTenderness: {
-    //   source: breastTenderness,
-    //   symptomText: 'BreastT tenderness',
-    //   optionValue: 'breastTenderness',
-    // },
+    discharges: { source: Discharges, symptomText: 'Discharges', optionValue: 'discharges' },
+    moodSwings: { source: MoodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
+    breastTenderness: {
+      source: BreastTenderness,
+      symptomText: 'BreastT tenderness',
+      optionValue: 'breastTenderness',
+    },
   };
 
   const optionsSymptomsArray = Object.values(optionsSymptoms);

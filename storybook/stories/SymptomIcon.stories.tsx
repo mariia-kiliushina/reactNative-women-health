@@ -7,14 +7,18 @@ storiesOf('SymptomIcon', module)
   .add('default', () => {
     return (
       <CenterView>
-        <SymptomIcon source={require('assets/headache.png')} symptomText="Text" />
+        <SymptomIcon source={require('assets/symptoms/headache.png')} symptomText="Text" />
       </CenterView>
     );
   })
   .add('marked', () => {
     return (
       <CenterView>
-        <SymptomIcon source={require('assets/headache.png')} symptomText="Text" marked={true} />
+        <SymptomIcon
+          source={require('assets/symptoms/headache.png')}
+          symptomText="Text"
+          marked={true}
+        />
       </CenterView>
     );
   });
