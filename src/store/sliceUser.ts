@@ -55,9 +55,6 @@ const userSlice = createSlice({
     clearAll(state) {
       state.accessToken = '';
     },
-    logInUser: (state: IUsersState, action: PayloadAction<IUsersState>) => {
-      state.userId = action.payload.userId;
-    },
     logOutUser: (state: IUsersState) => {
       state.userId = initialState.userId;
     },
@@ -67,6 +64,7 @@ const userSlice = createSlice({
       authenticateUser.fulfilled,
       (state: IUsersState, action: PayloadAction<IUsersState>) => {
         state.accessToken = action.payload.accessToken;
+        state.userId = action.payload.userId;
       }
     );
   },

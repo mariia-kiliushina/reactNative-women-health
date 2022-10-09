@@ -5,6 +5,14 @@ import SignUp from 'screens/SignUp';
 import Main from 'src/navigation/tab';
 import ForgotPassword from 'screens/ForgotPassword';
 
+export type RootStackParamList = {
+  Welcome: undefined;
+  'Sign In': undefined;
+  'Sign Up': undefined;
+  Main: undefined;
+  'Forgot Password': undefined;
+};
+
 export function ScreenNavigation() {
   const Stack = createNativeStackNavigator();
 

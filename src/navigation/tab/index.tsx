@@ -9,6 +9,12 @@ import COLORS from 'src/constants/colors';
 
 type Props = {};
 
+export type TabsParamList = {
+  Home: undefined;
+  Settings: undefined;
+  Calendar: undefined;
+};
+
 const Main: FC<Props> = (props) => {
   const Tab = createBottomTabNavigator();
   return (

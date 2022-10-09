@@ -2,9 +2,11 @@ import React, { SyntheticEvent, useState } from 'react';
 import { FC } from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { TabsParamList } from 'src/navigation/tab';
 type Props = {};
 
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation }: NativeStackScreenProps<TabsParamList>) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Home!</Text>
@@ -13,7 +15,7 @@ function HomeScreen({ navigation }) {
   );
 }
 
-function SettingsScreen({ navigation }) {
+function SettingsScreen({ navigation }: NativeStackScreenProps<TabsParamList>) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Settings!</Text>

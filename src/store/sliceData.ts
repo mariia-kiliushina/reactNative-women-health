@@ -1,11 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getFormatedDateFromGMTObject } from '../helpers';
 
+export type Flows = 'no-flow' | 'light' | 'normal' | 'heavy';
+export type Mood = 'good' | 'sad' | 'frisky';
+export type Symptoms = string;
+
 export interface IPeriod {
   id?: number;
   date: string;
-  flows: 'no-flow' | 'light' | 'normal' | 'heavy';
-  mood: 'good' | 'sad' | 'frisky';
+  flows: Flows;
+  mood: Mood;
+  userId: number | undefined;
+  symptoms: Symptoms[];
 }
 
 export type IState = {
@@ -14,10 +20,16 @@ export type IState = {
   periods: IPeriod[];
   selectedCalendarDate: string;
 };
+export type IStatePost = {
+  loading: boolean;
+  error: string | undefined;
+  periods: IPeriod[];
+  selectedCalendarDate: string;
+};
 
-export interface updatedDataT {
+export interface IUpdatedData {
   periodId: number;
-  updatedPeriodInfo: Record<string, unknown>;
+  updatedPeriodInfo: Record<string, string | number | undefined | Symptoms[]>;
 }
 
 const initialState: IState = {
@@ -39,7 +51,7 @@ export const logout = createAsyncThunk('logout', async () => {
 
 export const getData = createAsyncThunk('getData', async (_, thunkAPI) => {
   const state: any = thunkAPI.getState();
-  const token = state.dataSliceReducer.accessToken;
+  const token = state.userSliceReducer.accessToken;
   const response = await fetch(URL_PREFIX + 'periods', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -51,8 +63,9 @@ export const getData = createAsyncThunk('getData', async (_, thunkAPI) => {
 });
 
 export const postData = createAsyncThunk('postData', async (newTrack: IPeriod, thunkAPI) => {
-  const state: any = thunkAPI.getState();
-  const token = state.dataSliceReducer.accessToken;
+  const state = thunkAPI.getState();
+  //@ts-ignore
+  const token = state.userSliceReducer.accessToken;
   const response = await fetch(URL_PREFIX + 'periods', {
     body: JSON.stringify(newTrack),
     headers: {
@@ -65,11 +78,11 @@ export const postData = createAsyncThunk('postData', async (newTrack: IPeriod, t
   return responseJSON;
 });
 
-export const patchDataById = createAsyncThunk(
-  'patchDataById',
-  async (updatedData: updatedDataT, thunkAPI) => {
+export const patchRecordById = createAsyncThunk(
+  'patchRecordById',
+  async (updatedData: IUpdatedData, thunkAPI) => {
     const state: any = thunkAPI.getState();
-    const token = state.dataSliceReducer.accessToken;
+    const token = state.userSliceReducer.accessToken;
     const response = await fetch(URL_PREFIX + `periods/${updatedData.periodId}`, {
       body: JSON.stringify(updatedData.updatedPeriodInfo),
       headers: {

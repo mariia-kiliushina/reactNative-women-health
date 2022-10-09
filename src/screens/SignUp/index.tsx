@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from 'components/ControlledInput';
 import girlWithFlowers from 'assets/girl-flowers.jpeg';
-import { registerUser } from 'src/store/sliceData';
+import registerUser from 'src/store/sliceData';
 import { useDispatch } from 'react-redux';
 import GoBackButton from 'components/GoBackButton';
 

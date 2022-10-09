@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button, Text, TouchableOpacity, FlatList } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { FC } from 'react';
 import Calendar from '../Calendar';
-import { getData, IState } from 'src/store/sliceData';
+import { IState } from 'src/store/sliceData';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { IUsersState } from 'src/store/sliceUser';
 
@@ -15,7 +15,7 @@ const Settings: FC<Props> = (props) => {
 
   const { ...tracks } = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
-      state.dataSliceReducer.tracks
+      state.dataSliceReducer.periods
   );
   const periods = Object.values(tracks);
   return (

@@ -4,27 +4,28 @@ import { FC } from 'react';
 import Button from 'components/Button';
 import COLORS from 'src/constants/colors';
 import { getFormatedDateFromGMTObject } from 'src/helpers';
-import { Crumps, Acne } from 'src/assets/symptoms';
+import { Crumps, Acne, HairLoss, Spotting } from 'src/assets/symptoms';
 import { Heavy, Light, Normal } from 'src/assets/flows';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from 'src/hooks';
-import { patchDataById, postData } from 'src/store/sliceData';
+import { patchRecordById, postData } from 'src/store/sliceData';
 import { Controller } from 'react-hook-form';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IState } from '../../store/sliceData';
 import { useAppSelector } from 'src/hooks';
 import { IUsersState } from 'src/store/sliceUser';
 import SymptomIcon from '../SymptomIcon';
-import { IPeriod } from 'src/store/sliceData';
+import { IPeriod, Mood, Flows } from 'src/store/sliceData';
 
 type todaysInfo = {
   source: any;
   symptomText: string;
 };
-type todaysDataForm = {
-  flows: any;
-  symptoms: string;
-  mood: string;
+
+type FormValues = {
+  flows: Flows;
+  mood: Mood;
+  symptoms: string[];
 };
 
 type Props = {};
@@ -37,17 +38,21 @@ const TodaysLogs: FC<Props> = (props) => {
       state.dataSliceReducer.periods
   );
 
-  const periodsArray: IPeriod[] = Object.values(periods);
+  const periodsArrayFromState: IPeriod[] = Object.values(periods);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
 
   const selectedCalendarDate = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
       state.dataSliceReducer.selectedCalendarDate
+  );
+  const userId = useAppSelector(
+    (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
+      state.userSliceReducer.userId
   );
 
   const dateForDisplayInLogs =
@@ -57,26 +62,25 @@ const TodaysLogs: FC<Props> = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const onSubmit = (data: todaysDataForm) => {
-    let symptomsArray = Object.values(data.symptoms);
-
-    let obj = { flows: data.flows, symptoms: symptomsArray, mood: data.mood };
+  const onSubmit: SubmitHandler<FormValues> = ({ flows, symptoms, mood }) => {
+    let obj = { flows, symptoms, mood };
 
     if (Object.values(obj).some((value) => value !== undefined)) {
-      const periodWithSelectedDate = periodsArray.filter(
+      const periodWithSelectedDate = periodsArrayFromState.filter(
         (period) => period.date === selectedCalendarDate
       );
       const doesPeriodWithSelectedDateExist = periodWithSelectedDate.length === 0 ? false : true;
 
+      const dataToSend = { date: selectedCalendarDate, userId, ...obj };
       if (!doesPeriodWithSelectedDateExist) {
-        dispatch(postData({ date: selectedCalendarDate, ...obj }));
+        dispatch(postData(dataToSend));
       }
 
       if (doesPeriodWithSelectedDateExist) {
         const periodId = periodWithSelectedDate[0].id;
-        dispatch(
-          patchDataById({ updatedPeriodInfo: { date: selectedCalendarDate, ...obj }, periodId })
-        );
+        if (periodId) {
+          dispatch(patchRecordById({ updatedPeriodInfo: dataToSend, periodId }));
+        }
       }
     }
     setModalVisible(!modalVisible);
@@ -92,9 +96,9 @@ const TodaysLogs: FC<Props> = (props) => {
   const optionsSymptoms = {
     // headache: { source: headache, symptomText: 'Headache', optionValue: 'headache' },
     acne: { source: Acne, symptomText: 'Acne', optionValue: 'acne' },
-    // spotting: { source: spotting, symptomText: 'Spotting', optionValue: 'spotting' },
+    spotting: { source: Spotting, symptomText: 'Spotting', optionValue: 'spotting' },
     // painfulSex: { source: painfulSex, symptomText: 'Painful sex', optionValue: 'painfulSex' },
-    // hairLoss: { source: hairLoss, symptomText: 'Hair loss', optionValue: 'hairLoss' },
+    hairLoss: { source: HairLoss, symptomText: 'Hair loss', optionValue: 'hairLoss' },
     crumps: { source: Crumps, symptomText: 'Crumps', optionValue: 'crumps' },
     // discharges: { source: discharges, symptomText: 'Discharges', optionValue: 'discharges' },
     // moodSwings: { source: moodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
@@ -116,12 +120,14 @@ const TodaysLogs: FC<Props> = (props) => {
   const getTodaysInfo = () => {
     let todaysInfo: todaysInfo[] = [];
     if (!periods) return;
-    periodsArray.forEach((period: any) => {
+    periodsArrayFromState.forEach((period: any) => {
       if (!period) return;
       if (period.date === selectedCalendarDate) {
         todaysInfo.push({
-          source: optionsSymptoms[period.symptoms].source,
-          symptomText: optionsSymptoms[period.symptoms].symptomText,
+          // source: optionsSymptoms[period.symptoms].source,
+          // symptomText: optionsSymptoms[period.symptoms].symptomText,
+          source: optionsSymptoms['acne'].source,
+          symptomText: optionsSymptoms['acne'].symptomText,
         });
       }
     });
@@ -216,10 +222,23 @@ const TodaysLogs: FC<Props> = (props) => {
                           source={source}
                           symptomText={symptomText}
                           marked={false}
+                          //@ts-ignore
                           value={field.value}
-                          onChange={(event) =>
-                            field.onChange({ ...field.value, [optionValue]: optionValue })
-                          }
+                          onChange={(event) => {
+                            let symptomsArray = field.value;
+                            if (field.value === undefined) {
+                              field.onChange([optionValue]);
+                            } else {
+                              if (symptomsArray.some((symptom) => symptom === optionValue)) {
+                                field.onChange([...symptomsArray]);
+                              } else {
+                                field.onChange([...symptomsArray, optionValue]);
+                              }
+                            }
+
+                            // field.onChange(optionValue);
+                            // field.onChange({ ...field.value, [optionValue]: optionValue })
+                          }}
                         />
                       ))}
                     </View>
