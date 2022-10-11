@@ -10,3 +10,4 @@ declare module '*.png' {
 declare module '*.jpeg' {
   export default content;
 }
+declare module '*.ts';

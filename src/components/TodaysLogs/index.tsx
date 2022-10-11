@@ -11,11 +11,12 @@ import {
   Spotting,
   Discharges,
   PainfulSex,
-  // Headache,
+  Headache,
   MoodSwings,
   BreastTenderness,
   Constipation,
 } from 'src/assets/symptoms';
+import { Shevron_primary } from 'src/assets/index.ts';
 import { Heavy, Light, Normal } from 'src/assets/flows';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from 'src/hooks';
@@ -25,7 +26,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IState } from '../../store/sliceData';
 import { useAppSelector } from 'src/hooks';
 import { IUsersState } from 'src/store/sliceUser';
-import SymptomIcon from '../SymptomIcon';
+import RoundIcon from '../RoundIcon';
 import { IPeriod, Mood, Flows } from 'src/store/sliceData';
 
 type todaysInfo = {
@@ -105,7 +106,7 @@ const TodaysLogs: FC<Props> = (props) => {
   ];
 
   const optionsSymptoms = {
-    // headache: { source: Headache, symptomText: 'Headache', optionValue: 'headache' },
+    headache: { source: Headache, symptomText: 'Headache', optionValue: 'headache' },
     constipation: {
       source: Constipation,
       symptomText: 'Constipation',
@@ -184,7 +185,7 @@ const TodaysLogs: FC<Props> = (props) => {
                     control={control}
                     render={({ field }) => (
                       <View style={styles.rowFlexWrapper}>
-                        <SymptomIcon
+                        <RoundIcon
                           source={source}
                           symptomText={symptomText}
                           marked={false}
@@ -209,7 +210,7 @@ const TodaysLogs: FC<Props> = (props) => {
                     control={control}
                     render={({ field }) => (
                       <View style={styles.rowFlexWrapper}>
-                        <SymptomIcon
+                        <RoundIcon
                           source={source}
                           symptomText={symptomText}
                           marked={false}
@@ -233,13 +234,12 @@ const TodaysLogs: FC<Props> = (props) => {
                   render={({ field }) => (
                     <View style={styles.rowFlexWrapper}>
                       {optionsSymptomsArray.map(({ source, symptomText, optionValue }) => (
-                        <SymptomIcon
+                        <RoundIcon
                           key={optionValue}
                           source={source}
                           symptomText={symptomText}
                           marked={false}
-                          //@ts-ignore
-                          value={field.value}
+                          value={'symptoms field value'}
                           onChange={(event) => {
                             let symptomsArray = field.value;
                             if (field.value === undefined) {
@@ -251,9 +251,6 @@ const TodaysLogs: FC<Props> = (props) => {
                                 field.onChange([...symptomsArray, optionValue]);
                               }
                             }
-
-                            // field.onChange(optionValue);
-                            // field.onChange({ ...field.value, [optionValue]: optionValue })
                           }}
                         />
                       ))}
@@ -276,14 +273,14 @@ const TodaysLogs: FC<Props> = (props) => {
             style={{ alignSelf: 'flex-end', width: 60, height: 60 }}
             imageStyle={{ width: 20, height: 20 }}
             type="flat"
-            // imageSrc={shevron_primary_30}
+            imageSrc={Shevron_primary}
             onPress={() => setModalVisible(true)}
           />
         </View>
         <View style={styles.rowFlexWrapper}>
           {todaysInfo &&
             todaysInfo.map(({ source, symptomText }) => (
-              <SymptomIcon
+              <RoundIcon
                 key={symptomText}
                 source={source}
                 symptomText={symptomText}
@@ -333,7 +330,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    alignContent: 'flex-start',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    maxWidth: '90%',
   },
   todayText: {
     color: COLORS.colorGreyscaleContent,
