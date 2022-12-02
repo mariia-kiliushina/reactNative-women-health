@@ -1,0 +1,54 @@
+import { StyleSheet } from 'react-native';
+import { FC } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Home from 'screens/Home';
+import CalendarView from 'components/CalendarView';
+import Settings from 'screens/Settings';
+import COLORS from 'src/constants/colors';
+
+type Props = {};
+
+export type TabsParamList = {
+  Home: undefined;
+  Settings: undefined;
+  Calendar: undefined;
+};
+
+const Main: FC<Props> = (props) => {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: COLORS.colorPrimaryDark,
+      })}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="Calendar"
+        component={CalendarView}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="settings" color={color} size={size} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+const styles = StyleSheet.create({});
+
+export default Main;

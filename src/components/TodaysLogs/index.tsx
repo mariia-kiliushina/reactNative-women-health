@@ -1,107 +1,126 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Modal, View, Text, Image, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Modal, View, Text, TouchableOpacity, Pressable } from 'react-native';
 import { FC } from 'react';
 import Button from 'components/Button';
 import COLORS from 'src/constants/colors';
 import { getFormatedDateFromGMTObject } from 'src/helpers';
-import shevron_primary_30 from 'assets/shevron-primary-30.png';
-import headache from 'assets/headache.png';
-import spotting from 'assets/spotting.png';
-import acne from 'assets/acne.png';
-import breastTenderness from 'assets/breast-tenderness.png';
-import painfulSex from 'assets/painful-sex.png';
-import moodSwings from 'assets/mood-swings.png';
-import crumps from 'assets/crumps.png';
-import discharges from 'assets/discharges.png';
-import hairLoss from 'assets/hair-loss.png';
-import light from 'assets/light.png';
-import normal from 'assets/normal.png';
-import heavy from 'assets/heavy.png';
-import SymptomIcon from 'components/SymptomIcon';
-import { useForm } from 'react-hook-form';
+import {
+  Crumps,
+  Acne,
+  HairLoss,
+  Spotting,
+  Discharges,
+  PainfulSex,
+  Headache,
+  MoodSwings,
+  BreastTenderness,
+  Constipation,
+} from 'src/assets/symptoms';
+import { Shevron_primary } from 'src/assets/index.ts';
+import { Heavy, Light, Normal } from 'src/assets/flows';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from 'src/hooks';
-import { patchDataById, postData } from 'src/store/sliceData';
-import { Control, Controller, FieldValues } from 'react-hook-form';
+import { patchRecordById, postData } from 'src/store/sliceData';
+import { Controller } from 'react-hook-form';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { IState, setSelectedCalendarDate } from '../../store/sliceData';
+import { IState } from '../../store/sliceData';
 import { useAppSelector } from 'src/hooks';
 import { IUsersState } from 'src/store/sliceUser';
+import RoundIcon from '../RoundIcon';
+import { IPeriod, Mood, Flows } from 'src/store/sliceData';
+
+type todaysInfo = {
+  source: any;
+  symptomText: string;
+};
+
+type FormValues = {
+  flows: Flows;
+  mood: Mood;
+  symptoms: string[];
+};
 
 type Props = {};
 
 const TodaysLogs: FC<Props> = (props) => {
   const dispatch = useAppDispatch();
 
-  const { ...tracks } = useAppSelector(
+  const { ...periods } = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
-      state.dataSliceReducer.tracks
+      state.dataSliceReducer.periods
   );
-  const periods = Object.values(tracks);
 
-  console.log('periods');
-  console.log(periods);
+  const periodsArrayFromState: IPeriod[] = Object.values(periods);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
 
   const selectedCalendarDate = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
       state.dataSliceReducer.selectedCalendarDate
   );
+  const userId = useAppSelector(
+    (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
+      state.userSliceReducer.userId
+  );
 
-  const date =
+  const dateForDisplayInLogs =
     selectedCalendarDate === getFormatedDateFromGMTObject(new Date())
       ? 'Today'
       : selectedCalendarDate;
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const onSubmit = (data: any) => {
-    let symptomsArray = Object.values(data.symptoms);
-
-    let obj = { flows: data.flows, symptoms: symptomsArray, mood: data.mood };
+  const onSubmit: SubmitHandler<FormValues> = ({ flows, symptoms, mood }) => {
+    let obj = { flows, symptoms, mood };
 
     if (Object.values(obj).some((value) => value !== undefined)) {
-      const periodWithSelectedDate = periods.filter(
+      const periodWithSelectedDate = periodsArrayFromState.filter(
         (period) => period.date === selectedCalendarDate
       );
       const doesPeriodWithSelectedDateExist = periodWithSelectedDate.length === 0 ? false : true;
 
+      const dataToSend = { date: selectedCalendarDate, userId, ...obj };
       if (!doesPeriodWithSelectedDateExist) {
-        dispatch(postData({ date: selectedCalendarDate, ...obj }));
+        dispatch(postData(dataToSend));
       }
 
       if (doesPeriodWithSelectedDateExist) {
         const periodId = periodWithSelectedDate[0].id;
-        dispatch(
-          patchDataById({ updatedPeriodInfo: { date: selectedCalendarDate, ...obj }, periodId })
-        );
+        if (periodId) {
+          dispatch(patchRecordById({ updatedPeriodInfo: dataToSend, periodId }));
+        }
       }
     }
     setModalVisible(!modalVisible);
   };
 
   const optionsFlows = [
-    { source: light, symptomText: 'No Flow', optionValue: 'no-flow' },
-    { source: light, symptomText: 'Light', optionValue: 'light' },
-    { source: normal, symptomText: 'Normal', optionValue: 'normal' },
-    { source: heavy, symptomText: 'Heavy', optionValue: 'heavy' },
+    { source: Light, symptomText: 'No Flow', optionValue: 'no-flow' },
+    { source: Light, symptomText: 'Light', optionValue: 'light' },
+    { source: Normal, symptomText: 'Normal', optionValue: 'normal' },
+    { source: Heavy, symptomText: 'Heavy', optionValue: 'heavy' },
   ];
 
   const optionsSymptoms = {
-    headache: { source: headache, symptomText: 'Headache', optionValue: 'headache' },
-    acne: { source: acne, symptomText: 'Acne', optionValue: 'acne' },
-    spotting: { source: spotting, symptomText: 'Spotting', optionValue: 'spotting' },
-    painfulSex: { source: painfulSex, symptomText: 'Painful sex', optionValue: 'painfulSex' },
-    hairLoss: { source: hairLoss, symptomText: 'Hair loss', optionValue: 'hairLoss' },
-    crumps: { source: crumps, symptomText: 'Crumps', optionValue: 'crumps' },
-    discharges: { source: discharges, symptomText: 'Discharges', optionValue: 'discharges' },
-    moodSwings: { source: moodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
+    headache: { source: Headache, symptomText: 'Headache', optionValue: 'headache' },
+    constipation: {
+      source: Constipation,
+      symptomText: 'Constipation',
+      optionValue: 'constipation',
+    },
+    acne: { source: Acne, symptomText: 'Acne', optionValue: 'acne' },
+    spotting: { source: Spotting, symptomText: 'Spotting', optionValue: 'spotting' },
+    painfulSex: { source: PainfulSex, symptomText: 'Painful sex', optionValue: 'painfulSex' },
+    hairLoss: { source: HairLoss, symptomText: 'Hair loss', optionValue: 'hairLoss' },
+    crumps: { source: Crumps, symptomText: 'Crumps', optionValue: 'crumps' },
+    discharges: { source: Discharges, symptomText: 'Discharges', optionValue: 'discharges' },
+    moodSwings: { source: MoodSwings, symptomText: 'Mood swings', optionValue: 'moodSwings' },
     breastTenderness: {
-      source: breastTenderness,
+      source: BreastTenderness,
       symptomText: 'BreastT tenderness',
       optionValue: 'breastTenderness',
     },
@@ -110,23 +129,22 @@ const TodaysLogs: FC<Props> = (props) => {
   const optionsSymptomsArray = Object.values(optionsSymptoms);
 
   const optionsMood = [
-    { source: light, symptomText: 'Good', optionValue: 'good' },
-    { source: normal, symptomText: 'Sad', optionValue: 'sad' },
-    { source: heavy, symptomText: 'Frisky', optionValue: 'frisky' },
+    { source: Light, symptomText: 'Good', optionValue: 'good' },
+    { source: Normal, symptomText: 'Sad', optionValue: 'sad' },
+    { source: Heavy, symptomText: 'Frisky', optionValue: 'frisky' },
   ];
 
   const getTodaysInfo = () => {
-    let todaysInfo: any[] = [];
+    let todaysInfo: todaysInfo[] = [];
     if (!periods) return;
-    periods.forEach((period: any) => {
+    periodsArrayFromState.forEach((period: any) => {
       if (!period) return;
-      // dispatch(getAllSymtomsByPeriodId());
       if (period.date === selectedCalendarDate) {
         todaysInfo.push({
-          //@ts-ignore
-          source: optionsSymptoms[period.symptoms].source,
-          //@ts-ignore
-          symptomText: optionsSymptoms[period.symptoms].symptomText,
+          // source: optionsSymptoms[period.symptoms].source,
+          // symptomText: optionsSymptoms[period.symptoms].symptomText,
+          source: optionsSymptoms['acne'].source,
+          symptomText: optionsSymptoms['acne'].symptomText,
         });
       }
     });
@@ -153,7 +171,7 @@ const TodaysLogs: FC<Props> = (props) => {
           <View style={styles.modalView}>
             <View style={styles.colFlexWrapper}>
               <View style={styles.rowFlexWrapper}>
-                <Text style={styles.todayText}>{date}</Text>
+                <Text style={styles.todayText}>{dateForDisplayInLogs}</Text>
               </View>
               <View style={styles.rowFlexWrapper}>
                 <Text style={styles.todayText}>Menstrual Flow</Text>
@@ -167,7 +185,7 @@ const TodaysLogs: FC<Props> = (props) => {
                     control={control}
                     render={({ field }) => (
                       <View style={styles.rowFlexWrapper}>
-                        <SymptomIcon
+                        <RoundIcon
                           source={source}
                           symptomText={symptomText}
                           marked={false}
@@ -192,7 +210,7 @@ const TodaysLogs: FC<Props> = (props) => {
                     control={control}
                     render={({ field }) => (
                       <View style={styles.rowFlexWrapper}>
-                        <SymptomIcon
+                        <RoundIcon
                           source={source}
                           symptomText={symptomText}
                           marked={false}
@@ -216,15 +234,24 @@ const TodaysLogs: FC<Props> = (props) => {
                   render={({ field }) => (
                     <View style={styles.rowFlexWrapper}>
                       {optionsSymptomsArray.map(({ source, symptomText, optionValue }) => (
-                        <SymptomIcon
+                        <RoundIcon
                           key={optionValue}
                           source={source}
                           symptomText={symptomText}
                           marked={false}
-                          value={field.value}
-                          onChange={(event) =>
-                            field.onChange({ ...field.value, [optionValue]: optionValue })
-                          }
+                          value={'symptoms field value'}
+                          onChange={(event) => {
+                            let symptomsArray = field.value;
+                            if (field.value === undefined) {
+                              field.onChange([optionValue]);
+                            } else {
+                              if (symptomsArray.some((symptom) => symptom === optionValue)) {
+                                field.onChange([...symptomsArray]);
+                              } else {
+                                field.onChange([...symptomsArray, optionValue]);
+                              }
+                            }
+                          }}
                         />
                       ))}
                     </View>
@@ -241,19 +268,19 @@ const TodaysLogs: FC<Props> = (props) => {
       </Modal>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <View style={styles.rowFlexWrapper}>
-          <Text style={styles.todayText}>{date}</Text>
+          <Text style={styles.todayText}>{dateForDisplayInLogs}</Text>
           <Button
             style={{ alignSelf: 'flex-end', width: 60, height: 60 }}
             imageStyle={{ width: 20, height: 20 }}
             type="flat"
-            imageSrc={shevron_primary_30}
+            imageSrc={Shevron_primary}
             onPress={() => setModalVisible(true)}
           />
         </View>
         <View style={styles.rowFlexWrapper}>
           {todaysInfo &&
             todaysInfo.map(({ source, symptomText }) => (
-              <SymptomIcon
+              <RoundIcon
                 key={symptomText}
                 source={source}
                 symptomText={symptomText}
@@ -303,7 +330,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    alignContent: 'flex-start',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    maxWidth: '90%',
   },
   todayText: {
     color: COLORS.colorGreyscaleContent,

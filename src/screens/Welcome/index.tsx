@@ -34,7 +34,7 @@ const Welcome: FC<Props> = (props) => {
   useEffect(() => {
     async function prepare() {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);
       } finally {
@@ -52,7 +52,11 @@ const Welcome: FC<Props> = (props) => {
   }, [appIsReady]);
 
   if (!appIsReady) {
-    return null;
+    return (
+      <View>
+        <Text>App is not ready </Text>
+      </View>
+    );
   }
 
   return (

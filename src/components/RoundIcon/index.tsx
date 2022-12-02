@@ -18,7 +18,7 @@ type Props = {
   optionValue?: string;
 };
 
-const SymptomIcon: FC<Props> = (props) => {
+const RoundIcon: FC<Props> = (props) => {
   const { marked = false, optionValue, symptomText, source, onChange = () => {} } = props;
   const { symptomImage, standard } = styles;
 
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SymptomIcon;
+export default RoundIcon;

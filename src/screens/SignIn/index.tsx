@@ -1,38 +1,39 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, useWindowDimensions } from 'react-native';
-import { FC } from 'react';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import Button from 'components/Button';
 import COLORS from 'src/constants/colors';
-import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from 'components/ControlledInput';
-import { authenticateUser, clearAll } from 'src/store/sliceData';
-import { useDispatch } from 'react-redux';
-import GoBackButton from 'components/GoBackButton';
+import { authenticateUser, clearAll, IUser } from 'src/store/sliceUser';
+import { useAppDispatch } from 'src/hooks';
+import { GoBackButton } from 'components/GoBackButton';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from 'src/navigation/stack';
 
-type Props = {};
+export const SignIn = ({ navigation }: NativeStackScreenProps<RootStackParamList>) => {
+  const dispatch = useAppDispatch();
 
-const SignIn: FC<Props> = (props) => {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSignIn = (data: any) => {
+
+  const onSignIn = (userData: IUser) => {
+    console.log('userData');
+    console.log('userData');
+    console.log('userData');
+    console.log('userData');
+    console.log(userData);
+
     dispatch(clearAll());
-    //@ts-ignore
-    setTimeout(() => dispatch(authenticateUser(data)), 1000);
-    //@ts-ignore
+    setTimeout(() => dispatch(authenticateUser(userData)), 1000);
     setTimeout(() => navigation.navigate('Main'), 2000);
   };
   const onSignUp = () => {
-    //@ts-ignore
     navigation.navigate('Sign Up');
   };
   const onForgotPassword = () => {
-    //@ts-ignore
     navigation.navigate('Forgot Password');
   };
   return (
@@ -68,6 +69,7 @@ const SignIn: FC<Props> = (props) => {
           style={{ marginVertical: 30, alignSelf: 'flex-end' }}
           type="primary"
           title="Sign In"
+          //@ts-ignore
           onPress={handleSubmit(onSignIn)}
         />
         <View style={styles.registerWrapper}>
@@ -120,5 +122,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-export default SignIn;

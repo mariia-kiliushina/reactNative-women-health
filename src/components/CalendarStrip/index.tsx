@@ -4,12 +4,12 @@ import { FC } from 'react';
 import CalendarStrip from 'react-native-calendar-strip';
 import { getFormatedDateFromGMTObject } from 'src/helpers';
 import COLORS from 'src/constants/colors';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'src/hooks';
 import { setSelectedCalendarDate } from 'src/store/sliceData';
 type Props = {};
 
 const MyCalendarStrip: FC<Props> = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const onDateSelected = (date: any) => {
     const selectedDateStringFormatted = getFormatedDateFromGMTObject(date._d);
     dispatch(setSelectedCalendarDate(selectedDateStringFormatted));

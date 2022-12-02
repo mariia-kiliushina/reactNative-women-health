@@ -11,7 +11,7 @@ type Props = {
   style?: any;
 };
 
-const GoBackButton: FC<Props> = (props) => {
+export const GoBackButton: FC<Props> = (props) => {
   const { style, onPress, type = 'primary', size = 'medium' } = props;
   const { defaultButton, primary, secondary, disabled, danger, outlined, flat } = buttonStyles;
   const { small, medium, large, whiteText, blueText, disabledText } = textStyles;
@@ -138,5 +138,3 @@ const textStyles = StyleSheet.create({
     paddingVertical: 20,
   },
 });
-
-export default GoBackButton;

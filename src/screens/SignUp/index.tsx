@@ -7,9 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import ControlledInput from 'components/ControlledInput';
 import girlWithFlowers from 'assets/girl-flowers.jpeg';
-import { registerUser } from 'src/store/sliceData';
-import { useDispatch } from 'react-redux';
-import GoBackButton from 'components/GoBackButton';
+import registerUser, { IUser } from 'src/store/sliceUser';
+import { useAppDispatch } from 'src/hooks';
+import { GoBackButton } from 'components/GoBackButton';
 
 type Props = {};
 const EMAIL_REGEX = /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/;
@@ -20,7 +20,7 @@ export interface User {
 }
 
 const SignUp: FC<Props> = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
   const {
@@ -28,11 +28,11 @@ const SignUp: FC<Props> = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSignUp = (data: any) => {
+
+  const onSignUp = (userData: IUser) => {
     console.log('SIGN UP');
-    console.log(data);
-    //@ts-ignore
-    dispatch(registerUser(data));
+    console.log(userData);
+    dispatch(registerUser(userData));
   };
   const onForgotPassword = () => {};
   return (
@@ -47,13 +47,6 @@ const SignUp: FC<Props> = (props) => {
             placeholder="Enter your username"
             rules={{ required: 'Username is required' }}
           />
-          {/* <ControlledInput
-            control={control}
-            name="e-mail"
-            type="e-mail"
-            placeholder="Enter your email"
-            rules={{ required: 'Username is required', pattern: EMAIL_REGEX }}
-          /> */}
           <ControlledInput
             style={{}}
             control={control}
@@ -68,19 +61,6 @@ const SignUp: FC<Props> = (props) => {
               },
             }}
           />
-          {/* <ControlledInput
-            control={control}
-            name="passwordRepeat"
-            type="password"
-            placeholder="Repeat password"
-            rules={{
-              required: 'Password is required',
-              minLength: {
-                value: 5,
-                message: 'Password should be minimum 5 characters long',
-              },
-            }}
-          /> */}
           <Button title="Sign Up" onPress={handleSubmit(onSignUp)} />
           <View style={{ position: 'absolute', top: 100, left: 20 }}>
             <GoBackButton type="flat" onPress={() => navigation.goBack()} />

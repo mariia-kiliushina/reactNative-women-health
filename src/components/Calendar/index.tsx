@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FC } from 'react';
 import { Calendar } from 'react-native-calendars';
-import { Track } from 'src/store/sliceData';
+import { IPeriod } from 'src/store/sliceData';
 
 type Props = {
-  periods: Track[];
+  periods: IPeriod[];
   setDate: (day: string) => void;
 };
 type TMarkedObject = Record<string, {}>;
@@ -33,7 +33,7 @@ const MyCalendar: FC<Props> = (props) => {
 
     const isLast = filteredPeriodsDays[filteredPeriodsDays.length - 1].date === element.date;
 
-    if (element.flows !== 'no-flow' && element.symptoms) {
+    if (element.flows !== 'no-flow') {
       markedDatesObject[element.date] = {
         color: '#70d7c7',
         textColor: 'white',
@@ -52,9 +52,6 @@ const MyCalendar: FC<Props> = (props) => {
         endingDay: isLast,
       };
       return;
-    }
-    if (element.symptoms) {
-      markedDatesObject[element.date] = { marked: true, dotColor: '#50cebb' };
     }
   });
 

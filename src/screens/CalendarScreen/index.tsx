@@ -22,7 +22,7 @@ const Home: FC<Props> = (props) => {
 
   const { ...tracks } = useAppSelector(
     (state: { dataSliceReducer: IState; userSliceReducer: IUsersState }) =>
-      state.dataSliceReducer.tracks
+      state.dataSliceReducer.periods
   );
   const periods = Object.values(tracks);
 
