@@ -10,6 +10,10 @@ const Settings: FC<Props> = (props) => {
   return (
     <View style={styles.container}>
       <Text>Settings</Text>
+      <Text>Settings</Text>
+      <Text>Settings</Text>
+      <Text>Settings</Text>
+      <Text>Settings</Text>
     </View>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FC } from 'react';
 import CalendarStrip from 'react-native-calendar-strip';
-import { getFormatedDateFromGMTObject } from 'src/helpers';
+import { getFormatedDateFromGMTObject } from 'src/helpers/index';
 import COLORS from 'src/constants/colors';
 import { useAppDispatch } from 'src/hooks';
 import { setSelectedCalendarDate } from 'src/store/sliceData';

@@ -3,7 +3,7 @@ import { StyleSheet, Modal, View, Text, TouchableOpacity, Pressable } from 'reac
 import { FC } from 'react';
 import Button from 'components/Button';
 import COLORS from 'src/constants/colors';
-import { getFormatedDateFromGMTObject } from 'src/helpers';
+import { getFormatedDateFromGMTObject } from 'src/helpers/index';
 import {
   Crumps,
   Acne,
